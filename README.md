@@ -1,3 +1,2 @@
 # Expense Tracker
-This app helps user to track their expenses
-
+This app helps user to track their expenses.
