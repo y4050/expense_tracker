@@ -1,16 +1,16 @@
 {
   "development": {
-    "database": "express_auth_dev",
+    "database": "expense_tracker_dev",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
-    "database": "express_auth_test",
+    "database": "expense_tracker_test",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
-    "database": "express_auth_prod",
+    "database": "expense_tracker_prod",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }
