@@ -51,9 +51,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/profile', isLoggedIn, (req, res) => {
-  const { id, name, email} = req.user.get();
-  const exImg = "https://res.cloudinary.com/y4050/image/upload/v1612569777/sample.jpg";
-  res.render('profile', { id, name, email, exImg}); // make these vars available in the profile.ejs page, and call it out there with ejs <%=%>
+  const { id, name, email, img} = req.user.get();
+  res.render('profile', { id, name, email, img}); // make these vars available in the profile.ejs page, and call it out there with ejs <%=%>
 });
 
 const PORT = process.env.PORT || 3000;
