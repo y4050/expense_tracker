@@ -1,5 +1,6 @@
-// Make sure to require your models in the files where they will be used.
-const db = require('./models');
+// // Make sure to require your models in the files where they will be used.
+
+const db = require("./models");
 
 db.user.create({
   name: 'Test1',
@@ -14,13 +15,15 @@ db.expense.create({
   userId: '1',
   name: 'DD',
   categoryId: '1',
-  date: '2/16/2021'
+  date: '2/16/2021',
+  amount: 2.3
 });
 
 db.expense.create({
   name: 'Burger',
   categoryId: '2',
   date: '2/17/2021',
+  amount: 5,
   guestId: 1
 });
 

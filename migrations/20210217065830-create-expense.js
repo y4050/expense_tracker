@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       amount: {
-        type: Sequelize.INTEGER
+        type: Sequelize.DECIMAL
       },
       guestId: {
         type: Sequelize.INTEGER
