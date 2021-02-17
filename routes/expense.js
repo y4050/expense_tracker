@@ -4,7 +4,10 @@ const router = express.Router();
 
 
 router.get("/", (req, res) => {
-    res.send("Expense Page")
+    db.expense.findAll()
+    .then(function(expenses) {
+        res.render("expense/home", { expenses: expenses })
+    })
 })
 
 router.get("/new", (req, res) => {
@@ -22,5 +25,23 @@ router.get("/new", (req, res) => {
     })
 })
 
+router.post("/", async(req, res) => {
+    try{
+        console.log(req.body)
+        const date = await req.body.date;
+        const name = await req.body.name;
+        const categoryId = await req.body.categoryId;
+        const amount = await req.body.amount;
+        db.expense.create({
+            name: name,
+            date: date,
+            categoryId: categoryId,
+            amount: amount
+        });
+        res.redirect("/expense")
+    }catch(e) {
+        console.log(e.message)
+    }
+})
 
 module.exports = router;

@@ -1,7 +1,6 @@
 const express = require("express");
 const db = require("../models");
 const router = express.Router();
-
 const multer = require('multer');
 const cloudinary = require('cloudinary');
 // uploader for images, make a uploads folder, pass through the route as middleware

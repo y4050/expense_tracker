@@ -1,3 +1,8 @@
 <% categories.forEach(function(category) { %>
-    <p> <%= category.id %> <%= category.name %></p>
+    <div>
+        <li style="list-style: none;">
+            <%= category.name %>
+            <img src="<%= category.img %>" alt="No Image" style="max-width: 1.5%;">
+        </li>
+    </div>
 <% }) %>
