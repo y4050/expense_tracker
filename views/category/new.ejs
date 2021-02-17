@@ -1,20 +1,20 @@
-<h1>Sign up for BlogPulse</h1>
+<h1>Create New Category</h1>
 
-<form action="/authors" method="POST">
+<form action="/category" method="POST" enctype="multipart/form-data">
   <div class="form-group">
-    <label for="firstName">First Name</label>
-    <input type="text" class="form-control" id="firstName" name="firstName" required>
+    <label for="name">Category Name</label>
+    <input type="text" class="form-control" id="name" name="name" required>
   </div>
 
   <div class="form-group">
-    <label for="lastName">Last Name</label>
-    <input type="text" class="form-control" id="lastName" name="lastName" required>
+  <label for="inputFile">Image</label>
+  <input type="file" name="inputFile">
   </div>
-
-  <div class="form-group">
-    <label for="bio">Bio</label>
-    <textarea type="text" class="form-control" id="bio" name="bio" required></textarea>
-  </div>
-
-  <input type="submit" class="btn btn-primary">
+  <button type="submit" class="btn btn-primary">Confirm</button>
+  <a href="/expense/new">Cancel</a>
 </form>
+
+<h2>Categories</h2>
+<% categories.forEach(function(category) { %>
+  <p> <%= category.id %> <%= category.name %></p>
+<% }) %>
