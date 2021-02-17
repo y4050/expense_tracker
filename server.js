@@ -51,8 +51,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/profile', isLoggedIn, (req, res) => {
-  const { id, name, email, img} = req.user.get();
-  res.render('profile', { id, name, email, img}); // make these vars available in the profile.ejs page, and call it out there with ejs <%=%>
+  const { id, name, email, profilePic} = req.user.get();
+  res.render('profile', { id, name, email, profilePic}); // make these vars available in the profile.ejs page, and call it out there with ejs <%=%>
 });
 
 const PORT = process.env.PORT || 3000;

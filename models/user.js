@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.user.hasMany(models.expense);
     }
   };
   user.init({
@@ -42,26 +41,23 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    img:DataTypes.STRING,
+    profilePic: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'user',
   });
-
   // Before a user is created, we are encrypting the password and using hash in its place
   user.addHook('beforeCreate', (pendingUser) => { // pendingUser is object that gets passed to DB
     // Bcrypt is going to hash the password
     let hash = bcrypt.hashSync(pendingUser.password, 12); //
     pendingUser.password = hash; // this will go to the DB
   });
-
   // checking the password on Sign-In and comparing to the hashed password in the DB
   user.prototype.validPassword = function(typedPassword) {
     let isCorrectPassword = bcrypt.compareSync(typedPassword, this.password); // check to see if password is correct.
     
     return isCorrectPassword;
   }
-
   // return an object from the database of the user without the encrypted password
   user.prototype.toJSON = function() {
     let userData = this.get(); // 
@@ -69,6 +65,5 @@ module.exports = (sequelize, DataTypes) => {
     
     return userData;
   }
-
   return user; // above here
 };
