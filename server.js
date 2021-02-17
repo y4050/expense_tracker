@@ -45,6 +45,7 @@ app.use((req, res, next) => {
 
 // Controllers
 app.use('/auth', require('./routes/auth'));
+app.use('/expense', require("./routes/expense"));
 
 app.get('/', (req, res) => {
   res.render('index');

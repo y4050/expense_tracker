@@ -20,6 +20,9 @@ module.exports = {
       date: {
         type: Sequelize.STRING
       },
+      amount: {
+        type: Sequelize.INTEGER
+      },
       guestId: {
         type: Sequelize.INTEGER
       },

@@ -11,10 +11,17 @@ db.user.create({
 })
 
 db.expense.create({
-  userId: '2',
+  userId: '1',
   name: 'DD',
   categoryId: '1',
   date: '2/16/2021'
+});
+
+db.expense.create({
+  name: 'Burger',
+  categoryId: '2',
+  date: '2/17/2021',
+  guestId: 1
 });
 
 db.category.create({
@@ -22,8 +29,13 @@ db.category.create({
   img: 'https://res.cloudinary.com/y4050/image/upload/v1613505870/expense_tracker/drink_qlmbrw.png'
 });
 
+db.category.create({
+  name: 'foods',
+  img: 'https://res.cloudinary.com/y4050/image/upload/v1613540143/expense_tracker/food_swxzpl.png'
+});
+
 db.guest.create({
-  img: 'https://res.cloudinary.com/y4050/image/upload/v1613502798/expense_tracker/user-alt-512-1_vskwhs.png'
+  name: 'Guest1'
 })
 
 // db.user.findAll().then(function(user) {
