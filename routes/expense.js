@@ -10,20 +10,38 @@ router.get("/", (req, res) => {
     })
 })
 
-router.get("/new", (req, res) => {
+// New Expense Form Route
+router.post("/new", (req, res) => {
     let today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
     const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     const yyyy = today.getFullYear();
 
     today = mm + '/' + dd + '/' + yyyy;
-    console.log(today)
 
     db.category.findAll()
     .then(function(categories) {
         res.render("expense/new", { categories: categories, today })
     })
 })
+
+// Day View Route
+router.post("/day", async(req, res) => {
+    try {
+        const chosenDate = await req.body.expenseDate;
+        
+        let expenses = await db.expense.findAll({
+            where: {
+                date: chosenDate
+            }
+        });
+            res.render("expense/day", { expenses })
+    }catch(e) {
+        console.log("******ERROR*****", e.message)
+    }
+})
+
+
 
 router.post("/", async(req, res) => {
     try{

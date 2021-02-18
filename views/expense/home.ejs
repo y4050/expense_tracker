@@ -7,3 +7,16 @@
         </li>
     </div>
 <% }) %>
+
+<form action="/expense/day" method="POST">
+    <div class="form-group">
+      <label for="Expense">Expense</label>
+      <select name="expenseDate" id="expense" class="form-control" required>
+        <% expenses.forEach(function(expense) { %>
+          <option value="<%= expense.date %>"><%= expense.date %></option>
+        <% }) %>
+      </select>
+    </div>
+    
+    <input type="submit" class="btn btn-primary">
+  </form>

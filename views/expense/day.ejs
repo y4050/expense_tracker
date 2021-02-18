@@ -1,0 +1,11 @@
+<h2>Day View</h2>
+
+<% expenses.forEach(function(expense) { %>
+    <div>
+        <li style="list-style: none;">
+            <%= expense.date %>
+            <%= expense.name %>
+            <%= expense.amount %>
+        </li>
+    </div>
+<% }) %>
