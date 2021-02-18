@@ -12,8 +12,9 @@
     <div class="form-group">
       <label for="Expense">Expense</label>
       <select name="expenseDate" id="expense" class="form-control" required>
-        <% expenses.forEach(function(expense) { %>
-          <option value="<%= expense.date %>"><%= expense.date %></option>
+        <% expenseU.forEach(function(expense) { %>
+            <%= console.log(expense) %>
+          <option value="<%= expense.DISTINCT%>"><%= expense.DISTINCT %></option>
         <% }) %>
       </select>
     </div>

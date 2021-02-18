@@ -1,13 +1,23 @@
 const express = require("express");
 const db = require("../models");
 const router = express.Router();
+const { QueryTypes } = require('sequelize');
 
 
-router.get("/", (req, res) => {
-    db.expense.findAll()
-    .then(function(expenses) {
-        res.render("expense/home", { expenses: expenses })
-    })
+
+router.get("/", async(req, res) => {
+    try{
+        // past 10 entries
+        const expenses = await db.expense.findAll({ limit: 10 });
+        const expenseU = await db.expense.aggregate('date', 'DISTINCT', { plain: false })
+
+
+        console.log(expenseU)
+        res.render("expense/home", { expenses, expenseU })
+    }catch(e) {
+        console.log("******ERROR******")
+        console.log(e.message)
+    }
 })
 
 // New Expense Form Route
