@@ -1,11 +1,12 @@
-<h2>Day View</h2>
-
+<h2>Expenses on: <%= chosenDate %></h2>
 <% expenses.forEach(function(expense) { %>
     <div>
-        <li style="list-style: none;">
-            <%= expense.date %>
+        <li>
             <%= expense.name %>
-            <%= expense.amount %>
+            $<%= expense.amount %>
+
+            <% theSum += parseFloat(expense.amount) %>
         </li>
     </div>
 <% }) %>
+<p>Today's total: $<%= theSum %></p>

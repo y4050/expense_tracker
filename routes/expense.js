@@ -29,13 +29,13 @@ router.post("/new", (req, res) => {
 router.post("/day", async(req, res) => {
     try {
         const chosenDate = await req.body.expenseDate;
-        
+        const theSum = 0;
         let expenses = await db.expense.findAll({
             where: {
                 date: chosenDate
             }
         });
-            res.render("expense/day", { expenses })
+            res.render("expense/day", { expenses, chosenDate, theSum })
     }catch(e) {
         console.log("******ERROR*****", e.message)
     }
