@@ -1,1 +1,13 @@
-<h2>Month View</h2>
+<h2>Month: <%= chosenMonth %></h2>
+
+<% expenses.forEach(function(expense) { %>
+    <div>
+        <li>
+            <%= expense.name %>
+            $<%= expense.amount %>
+
+            <% theSum += parseFloat(expense.amount) %>
+        </li>
+    </div>
+<% }) %>
+<p>Today's total: $<%= theSum %></p>

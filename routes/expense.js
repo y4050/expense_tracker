@@ -1,19 +1,19 @@
 const express = require("express");
 const db = require("../models");
 const router = express.Router();
-const { QueryTypes } = require('sequelize');
 
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 
 router.get("/", async(req, res) => {
     try{
         // past 10 entries
         const expenses = await db.expense.findAll({ limit: 10 });
-        const expenseU = await db.expense.aggregate('date', 'DISTINCT', { plain: false })
+        const expenseDay = await db.expense.aggregate('date', 'DISTINCT', { plain: false })
 
-
-        console.log(expenseU)
-        res.render("expense/home", { expenses, expenseU })
+        console.log(expenseDay)
+        res.render("expense/home", { expenses, expenseDay })
     }catch(e) {
         console.log("******ERROR******")
         console.log(e.message)
@@ -24,7 +24,7 @@ router.get("/", async(req, res) => {
 router.post("/new", (req, res) => {
     let today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
     const yyyy = today.getFullYear();
 
     today = mm + '/' + dd + '/' + yyyy;
@@ -51,8 +51,32 @@ router.post("/day", async(req, res) => {
     }
 })
 
+// Month View Route
+router.post("/month", async(req, res) => {
+    try {
+        const chosenDate = await req.body.expenseDate;
+        const theSum = 0;
+        const chosenMonth = chosenDate.split("/")[0]
+        const testing = chosenMonth + '%';
+        let expenses = await db.expense.findAll({
+            where: {
+                date: {
+                    [Op.like]: '2%'
+                }
+            }
+        });
+        console.log("*****", expenses)
+            res.render("expense/month", { expenses, chosenDate, theSum, chosenMonth })
+    }catch(e) {
+        console.log("******ERROR*****", e.message)
+    }
+})
 
 
+
+
+
+// New Expense Entry
 router.post("/", async(req, res) => {
     try{
         console.log(req.body)
@@ -71,5 +95,6 @@ router.post("/", async(req, res) => {
         console.log(e.message)
     }
 })
+
 
 module.exports = router;
