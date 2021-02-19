@@ -97,7 +97,8 @@ router.post("/month", async(req, res) => {
                 date: {
                     [Op.like]: theMonth
                 }
-            }
+            },
+            include: [db.category]
         });
         // make month display more user friendly
         let monthName = '';
@@ -139,11 +140,12 @@ router.post("/month", async(req, res) => {
 router.post("/year", async(req, res) => {
     try {
         const expenseDay = await db.expense.aggregate('date', 'DISTINCT', { plain: false })
-        const chosenDate = await req.body.expenseDate;
+        const chosenDate = await req.body.expenseYear;
         const theSum = 0;
         const chosenYear = chosenDate.split("/")[2]
         // to search year like '%2021'
-        const theYear = '%' + chosenYear;
+        const theYear = '%' + chosenDate;
+        console.log(theYear)
         let expenses = await db.expense.findAll({
             where: {
                 date: {
@@ -152,18 +154,19 @@ router.post("/year", async(req, res) => {
             }
         });
         // monthly
-        const jan = await db.expense.sum('amount', { where: { date: { [Op.like]: "01%" } } });
-        const feb = await db.expense.sum('amount', { where: { date: { [Op.like]: "02%" } } });
-        const mar = await db.expense.sum('amount', { where: { date: { [Op.like]: "03%" } } });
-        const apr = await db.expense.sum('amount', { where: { date: { [Op.like]: "04%" } } });
-        const may = await db.expense.sum('amount', { where: { date: { [Op.like]: "05%" } } });
-        const jun = await db.expense.sum('amount', { where: { date: { [Op.like]: "06%" } } });
-        const jul = await db.expense.sum('amount', { where: { date: { [Op.like]: "07%" } } });
-        const aug = await db.expense.sum('amount', { where: { date: { [Op.like]: "08%" } } });
-        const sep = await db.expense.sum('amount', { where: { date: { [Op.like]: "09%" } } });
-        const oct = await db.expense.sum('amount', { where: { date: { [Op.like]: "10%" } } });
-        const nov = await db.expense.sum('amount', { where: { date: { [Op.like]: "11%" } } });
-        const dec = await db.expense.sum('amount', { where: { date: { [Op.like]: "12%" } } });
+        const jan = await db.expense.sum('amount', { where: { date: { [Op.like]: "01%"+theYear } } });
+        const feb = await db.expense.sum('amount', { where: { date: { [Op.like]: "02%"+theYear } } });
+        const mar = await db.expense.sum('amount', { where: { date: { [Op.like]: "03%"+theYear } } });
+        const apr = await db.expense.sum('amount', { where: { date: { [Op.like]: "04%"+theYear } } });
+        const may = await db.expense.sum('amount', { where: { date: { [Op.like]: "05%"+theYear } } });
+        const jun = await db.expense.sum('amount', { where: { date: { [Op.like]: "06%"+theYear } } });
+        const jul = await db.expense.sum('amount', { where: { date: { [Op.like]: "07%"+theYear } } });
+        const aug = await db.expense.sum('amount', { where: { date: { [Op.like]: "08%"+theYear } } });
+        const sep = await db.expense.sum('amount', { where: { date: { [Op.like]: "09%"+theYear } } });
+        const oct = await db.expense.sum('amount', { where: { date: { [Op.like]: "10%"+theYear } } });
+        const nov = await db.expense.sum('amount', { where: { date: { [Op.like]: "11%"+theYear } } });
+        const dec = await db.expense.sum('amount', { where: { date: { [Op.like]: "12%"+theYear } } });
+
 
         res.render("expense/year", { expenses, expenseDay, chosenDate, theSum, chosenYear, jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec })
     }catch(e) {

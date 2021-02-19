@@ -59,7 +59,7 @@ app.get('/profile', isLoggedIn, (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
-  console.log(`🎧 You're listening to the smooth sounds of port ${PORT} 🎧`);
+  console.log(`🎧 You're listening on ${PORT} 🎧`);
 });
 
 module.exports = server;

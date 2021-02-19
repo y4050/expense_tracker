@@ -1,4 +1,4 @@
-<h2>Recent Transactions</h2>
+<h2>Recent Transactions:</h2>
 <% expenses.forEach(function(expense) { %>
     <div>
         <li style="list-style: none;">
@@ -11,7 +11,7 @@
 
 <form action="/expense/day" method="POST">
     <div class="form-group">
-      <label for="Expense">Expense</label>
+      <label for="Expense"><h3>Select A Recent Date To View:</h3></label>
       <select name="expenseDate" id="expense" class="form-control" required>
         <% expenseDay.forEach(function(expense) { %>
           <option value="<%= expense.DISTINCT%>"><%= expense.DISTINCT %></option>
@@ -24,11 +24,20 @@
 
   <form action="/expense/month" method="POST">
     <div class="form-group">
-      <label for="Expense">Expense</label>
+      <label for="Expense"><h3>Select Month To View:</h3></label>
       <select name="expenseDate" id="expense" class="form-control" required>
-        <% months.forEach(function(month) { %>
-          <option value="<%= month %>"><%= month %></option>
-        <% }) %>
+        <option value="01">January</option>
+        <option value="02">February</option>
+        <option value="03">March</option>
+        <option value="04">April</option>
+        <option value="05">May</option>
+        <option value="06">June</option>
+        <option value="07">July</option>
+        <option value="08">August</option>
+        <option value="09">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <option value="12">December</option>
       </select>
     </div>
     
@@ -37,11 +46,13 @@
 
   <form action="/expense/year" method="POST">
     <div class="form-group">
-      <label for="Expense">Expense</label>
-      <select name="expenseDate" id="expense" class="form-control" required>
-        <% expenseDay.forEach(function(expense) { %>
-          <option value="<%= expense.DISTINCT%>"><%= expense.DISTINCT.split("/")[2] %></option>
-        <% }) %>
+      <label for="Expense"><h3>Select Year To View:</h3></label>
+      <select name="expenseYear" id="expense" class="form-control" required>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
       </select>
     </div>
     
