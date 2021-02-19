@@ -5,14 +5,48 @@ const router = express.Router();
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
+const monthName = (theMonth) => {
+    let temp ='';
+    if (theMonth == '01') {
+        temp = 'January'
+    } else if (theMonth == '02') {
+        temp = 'February'
+    } else if (theMonth == '03') {
+        temp = 'March'
+    } else if (theMonth == '04') {
+        temp = 'April'
+    } else if (theMonth == '05') {
+        temp = 'May'
+    } else if (theMonth == '06') {
+        temp = 'June'
+    } else if (theMonth == '07') {
+        temp = 'July'
+    } else if (theMonth == '08') {
+        temp = 'August'
+    } else if (theMonth == '09') {
+        temp = 'September'
+    } else if (theMonth == '10') {
+        temp = 'October'
+    } else if (theMonth == '11') {
+        temp = 'November'
+    } else if (theMonth == '12') {
+        temp = 'December'
+    } else {
+        temp = "Something's wrong"
+    }
+    return temp;
+}
+
+
 
 router.get("/", async(req, res) => {
     try{
         // past 10 entries
         const expenses = await db.expense.findAll({ limit: 10 });
         const expenseDay = await db.expense.aggregate('date', 'DISTINCT', { plain: false })
+        const months = ['01','02','03','04','05','06','07','08','09','10','11','12']
 
-        res.render("expense/home", { expenses, expenseDay })
+        res.render("expense/home", { expenses, expenseDay, months })
     }catch(e) {
         console.log("******ERROR******")
         console.log(e.message)
@@ -20,7 +54,7 @@ router.get("/", async(req, res) => {
 })
 
 // New Expense Form Route
-router.post("/new", (req, res) => {
+router.get("/new", (req, res) => {
     let today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
     const mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -40,11 +74,11 @@ router.post("/day", async(req, res) => {
         const chosenDate = await req.body.expenseDate;
         const theSum = 0;
         let expenses = await db.expense.findAll({
-            where: {
-                date: chosenDate
-            }
+            where: { date: chosenDate },
+            include: [db.category]
         });
-            res.render("expense/day", { expenses, chosenDate, theSum })
+        
+        res.render("expense/day", { expenses, chosenDate, theSum })
     }catch(e) {
         console.log("******ERROR*****", e.message)
     }
@@ -56,7 +90,7 @@ router.post("/month", async(req, res) => {
         const chosenDate = await req.body.expenseDate;
         const theSum = 0;
         const chosenMonth = chosenDate.split("/")[0]
-        // to find month like '1%'
+        // to find month like '01%'
         const theMonth = chosenMonth + '%';
         let expenses = await db.expense.findAll({
             where: {
@@ -67,23 +101,23 @@ router.post("/month", async(req, res) => {
         });
         // make month display more user friendly
         let monthName = '';
-        if (chosenMonth == '1') {
+        if (chosenMonth == '01') {
             monthName = 'January'
-        } else if (chosenMonth == '2') {
+        } else if (chosenMonth == '02') {
             monthName = 'February'
-        } else if (chosenMonth == '3') {
+        } else if (chosenMonth == '03') {
             monthName = 'March'
-        } else if (chosenMonth == '4') {
+        } else if (chosenMonth == '04') {
             monthName = 'April'
-        } else if (chosenMonth == '5') {
+        } else if (chosenMonth == '05') {
             monthName = 'May'
-        } else if (chosenMonth == '6') {
+        } else if (chosenMonth == '06') {
             monthName = 'June'
-        } else if (chosenMonth == '7') {
+        } else if (chosenMonth == '07') {
             monthName = 'July'
-        } else if (chosenMonth == '8') {
+        } else if (chosenMonth == '08') {
             monthName = 'August'
-        } else if (chosenMonth == '9') {
+        } else if (chosenMonth == '09') {
             monthName = 'September'
         } else if (chosenMonth == '10') {
             monthName = 'October'
@@ -118,29 +152,24 @@ router.post("/year", async(req, res) => {
             }
         });
         // monthly
-        const jan = await db.expense.sum('amount', { where: { date: { [Op.like]: "1%" } } });
-        const feb = await db.expense.sum('amount', { where: { date: { [Op.like]: "2%" } } });
-        const mar = await db.expense.sum('amount', { where: { date: { [Op.like]: "3%" } } });
-        const apr = await db.expense.sum('amount', { where: { date: { [Op.like]: "4%" } } });
-        const may = await db.expense.sum('amount', { where: { date: { [Op.like]: "5%" } } });
-        const jun = await db.expense.sum('amount', { where: { date: { [Op.like]: "6%" } } });
-        const jul = await db.expense.sum('amount', { where: { date: { [Op.like]: "7%" } } });
-        const aug = await db.expense.sum('amount', { where: { date: { [Op.like]: "8%" } } });
-        const sep = await db.expense.sum('amount', { where: { date: { [Op.like]: "9%" } } });
+        const jan = await db.expense.sum('amount', { where: { date: { [Op.like]: "01%" } } });
+        const feb = await db.expense.sum('amount', { where: { date: { [Op.like]: "02%" } } });
+        const mar = await db.expense.sum('amount', { where: { date: { [Op.like]: "03%" } } });
+        const apr = await db.expense.sum('amount', { where: { date: { [Op.like]: "04%" } } });
+        const may = await db.expense.sum('amount', { where: { date: { [Op.like]: "05%" } } });
+        const jun = await db.expense.sum('amount', { where: { date: { [Op.like]: "06%" } } });
+        const jul = await db.expense.sum('amount', { where: { date: { [Op.like]: "07%" } } });
+        const aug = await db.expense.sum('amount', { where: { date: { [Op.like]: "08%" } } });
+        const sep = await db.expense.sum('amount', { where: { date: { [Op.like]: "09%" } } });
         const oct = await db.expense.sum('amount', { where: { date: { [Op.like]: "10%" } } });
         const nov = await db.expense.sum('amount', { where: { date: { [Op.like]: "11%" } } });
         const dec = await db.expense.sum('amount', { where: { date: { [Op.like]: "12%" } } });
-
 
         res.render("expense/year", { expenses, expenseDay, chosenDate, theSum, chosenYear, jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec })
     }catch(e) {
         console.log("******ERROR*****", e.message)
     }
 })
-
-
-
-
 
 // New Expense Entry
 router.post("/", async(req, res) => {

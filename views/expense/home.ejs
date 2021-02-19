@@ -26,8 +26,8 @@
     <div class="form-group">
       <label for="Expense">Expense</label>
       <select name="expenseDate" id="expense" class="form-control" required>
-        <% expenseDay.forEach(function(expense) { %>
-          <option value="<%= expense.DISTINCT%>"><%= expense.DISTINCT.split("/")[0] %></option>
+        <% months.forEach(function(month) { %>
+          <option value="<%= month %>"><%= month %></option>
         <% }) %>
       </select>
     </div>

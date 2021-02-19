@@ -5,8 +5,12 @@
             <%= expense.name %>
             $<%= expense.amount %>
 
+            <img src="<%= expense.category.img %>" alt="No Image" style="max-width: 1.5%;">
+
             <% theSum += parseFloat(expense.amount) %>
         </li>
     </div>
 <% }) %>
 <p>Today's total: $<%= theSum %></p>
+
+<a href="/expense">Go Back</a>
