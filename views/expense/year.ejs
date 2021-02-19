@@ -1,1 +1,28 @@
-<h2>Year View</h2>
+<h2>Year: <%= chosenYear %></h2>
+<ul>
+    <li>January: $<%= jan %></li>
+    <li>February: $<%= feb %></li>
+    <li>March: $<%= mar %></li>
+    <li>April: $<%= apr %></li>
+    <li>May: $<%= may %></li>
+    <li>June: $<%= jun %></li>
+    <li>July: $<%= jul %></li>
+    <li>August: $<%= aug %></li>
+    <li>September: $<%= sep %></li>
+    <li>Octoboer: $<%= oct %></li>
+    <li>November: $<%= nov %></li>
+    <li>December: $<%= dec %></li>
+</ul>
+
+<form action="/expense/month" method="POST">
+    <div class="form-group">
+      <label for="Expense">Select a month to view details:</label>
+      <select name="expenseDate" id="expense" class="form-control" required>
+        <% expenseDay.forEach(function(expense) { %>
+          <option value="<%= expense.DISTINCT%>"><%= expense.DISTINCT.split("/")[0] %></option>
+        <% }) %>
+      </select>
+    </div>
+    
+    <input type="submit" class="btn btn-primary" value="Select">
+</form>
