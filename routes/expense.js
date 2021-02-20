@@ -1,9 +1,19 @@
 const express = require("express");
 const db = require("../models");
 const router = express.Router();
-
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+// const methodOverride = require('method-override');
+// const bodyParser = require('body-parser');
+
+// // ------------------------------------ MIDDLEWARE
+// const app = express();
+// app.set('view engine', 'ejs');
+// app.use(methodOverride('_method'));
+// app.use(bodyParser.urlencoded({extended: false}));
+
+
+
 
 
 router.get("/", async(req, res) => {
@@ -162,19 +172,43 @@ router.post("/", async(req, res) => {
 
 // Params
 router.get("/:id", async(req, res) => {
-    db.expense.findByPk(req.params.id)
+    try{
+        const chosenDateO = await db.expense.findByPk(req.params.id)
+        const chosenDate = chosenDateO.date
+        let expenses = await db.expense.findAll({
+            where: { date: chosenDate },
+            include: [db.category]
+        });
+        let theSum = 0
+        res.render("expense/day", { chosenDate, expenses, theSum });
+    }catch(e) {
+        console.log("****ERROR****", e.message)
+    }
+});
+
+
+// GET Edit
+router.get('/:id/edit', (req, res) => {
+    db.expense.findOne({ where: {id: req.params.id}})
     .then((chosen)=> {
-      res.render('expense/show', {
+      res.render('expense/edit', {
         expense: chosen,
       });
     });
-    // try{
-    //     const chosen = db.expense.findByPK(req.params.id)
-    // }catch(e) {
-    //     console.log("****ERORR****", e.message)
-    // }
-    // res.render("expense/show", { chosen })
-})
+  });
+
+// PUT Update
+router.put('/:id', (req, res) => {
+    db.expense.update({ name: req.body.name }, {
+      where: {
+        id: req.params.id
+      }
+    })
+    .then((update)=> {
+        console.log('Updated = ', update);
+        res.redirect(`/expense/${req.params.id}`);
+    });
+  });
 
 
 module.exports = router;

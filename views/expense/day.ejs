@@ -1,7 +1,10 @@
 <h2>Expenses on: <%= chosenDate %></h2>
 <ul>
     <% for (let i = 0; i < expenses.length; i++){%>
-      <li><%=expenses[i].name + ' $' + expenses[i].amount + ' '%><a href="/expense/<%=expenses[i].id%>">Edit</a></li>
+        <li>
+            <%=expenses[i].name + ' $' + expenses[i].amount + ' '%><a href="/expense/<%=expenses[i].id%>/edit">Edit</a>
+            <% console.log(expenses[i]) %>
+        </li>
     <%}%>
   </ul>
 

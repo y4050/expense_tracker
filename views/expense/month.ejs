@@ -5,11 +5,12 @@
         <% expenses.forEach(function(expense) { %>
             <div>
                 <li>
-                    <%= expense.date.substring(0,5) %>
+                    <%= expense.date.substring(5, 10).replace('-','/') %>
                     <%= expense.name %>
                     $<%= expense.amount %>
                     <img src="<%= expense.category.img %>" alt="No Image" style="max-width: 1.5%;">
                     
+
                     <% theSum += parseFloat(expense.amount) %>
                 </li>
             </div>

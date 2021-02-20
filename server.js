@@ -5,9 +5,18 @@ const session = require('express-session');
 const passport = require('./config/ppConfig'); //
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
+const bodyParser = require('body-parser');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
+
+// ------------------------------------ MIDDLEWARE
 const app = express();
 app.set('view engine', 'ejs');
+app.use(methodOverride('_method'));
+app.use(bodyParser.urlencoded({extended: false}));
+
+
 
 // Session 
 const SECRET_SESSION = process.env.SECRET_SESSION;
