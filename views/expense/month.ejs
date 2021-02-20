@@ -1,17 +1,20 @@
 <h2>Month: <%= monthName %></h2>
+<% if (!expenses){ %> 
+        <p>No Record</p>
+    <% } else { %>
+        <% expenses.forEach(function(expense) { %>
+            <div>
+                <li>
+                    <%= expense.date.substring(0,5) %>
+                    <%= expense.name %>
+                    $<%= expense.amount %>
+                    <img src="<%= expense.category.img %>" alt="No Image" style="max-width: 1.5%;">
+                    
+                    <% theSum += parseFloat(expense.amount) %>
+                </li>
+            </div>
+        <% }) %>
+    <% } %>  
+<h3>Month's total: $<%= theSum.toFixed(2) %></h3>
 
-<% expenses.forEach(function(expense) { %>
-    <div>
-        <li>
-            <%= expense.date.substring(0,5) %>
-            <%= expense.name %>
-            $<%= expense.amount %>
-            <img src="<%= expense.category.img %>" alt="No Image" style="max-width: 1.5%;">
-            
-            <% theSum += parseFloat(expense.amount) %>
-        </li>
-    </div>
-<% }) %>
-<h3>Month's total: $<%= theSum %></h3>
-
-<a href="/expense">Go Back</a>
+<a href="/expense">Back To Main</a>

@@ -57,6 +57,7 @@ app.get('/profile', isLoggedIn, (req, res) => {
   res.render('profile', { id, name, email, profilePic}); // make these vars available in the profile.ejs page, and call it out there with ejs <%=%>
 });
 
+
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
   console.log(`🎧 You're listening on ${PORT} 🎧`);

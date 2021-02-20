@@ -1,16 +1,10 @@
 <h2>Expenses on: <%= chosenDate %></h2>
-<% expenses.forEach(function(expense) { %>
-    <div>
-        <li>
-            <%= expense.name %>
-            $<%= expense.amount %>
+<ul>
+    <% for (let i = 0; i < expenses.length; i++){%>
+      <li><%=expenses[i].name + ' $' + expenses[i].amount + ' '%><a href="/expense/<%=expenses[i].id%>">Edit</a></li>
+    <%}%>
+  </ul>
 
-            <img src="<%= expense.category.img %>" alt="No Image" style="max-width: 1.5%;">
+<p>Today's total: $<%= theSum.toFixed(2) %></p>
 
-            <% theSum += parseFloat(expense.amount) %>
-        </li>
-    </div>
-<% }) %>
-<p>Today's total: $<%= theSum %></p>
-
-<a href="/expense">Go Back</a>
+<a href="/expense">Back To Main</a>
