@@ -1,17 +1,17 @@
 <h2>Year: <%= chosenYear %></h2>
 <ul>
-    <li>January: $<%= jan %></li>
-    <li>February: $<%= feb %></li>
-    <li>March: $<%= mar %></li>
-    <li>April: $<%= apr %></li>
-    <li>May: $<%= may %></li>
-    <li>June: $<%= jun %></li>
-    <li>July: $<%= jul %></li>
-    <li>August: $<%= aug %></li>
-    <li>September: $<%= sep %></li>
-    <li>Octoboer: $<%= oct %></li>
-    <li>November: $<%= nov %></li>
-    <li>December: $<%= dec %></li>
+    <li>January: $<%= jan.toFixed(2) %></li>
+    <li>February: $<%= feb.toFixed(2) %></li>
+    <li>March: $<%= mar.toFixed(2) %></li>
+    <li>April: $<%= apr.toFixed(2) %></li>
+    <li>May: $<%= may.toFixed(2) %></li>
+    <li>June: $<%= jun.toFixed(2) %></li>
+    <li>July: $<%= jul.toFixed(2) %></li>
+    <li>August: $<%= aug.toFixed(2) %></li>
+    <li>September: $<%= sep.toFixed(2) %></li>
+    <li>Octoboer: $<%= oct.toFixed(2) %></li>
+    <li>November: $<%= nov.toFixed(2) %></li>
+    <li>December: $<%= dec.toFixed(2) %></li>
 </ul>
 
 <form action="/expense/month" method="POST">

@@ -32,11 +32,30 @@ router.post("/", uploads.single('inputFile'), async(req, res) => {
                 name: name,
                 img: result.url
             })
-            res.redirect('/category');
+            res.redirect('/expense/new');
         });
     }catch(e) {
         console.log(e.message);
     }
 });
+
+
+// DELETE
+router.delete('/:id', async(req, res) => {
+    try{
+        const deleted = await db.category.destroy({
+          where: {
+            id: req.params.id
+        }
+    })
+    res.redirect(`/category/`);
+        
+    }catch(e) {
+        console.log("***ERROR***", e.message)
+    }
+  });
+
+
+
 
 module.exports = router;

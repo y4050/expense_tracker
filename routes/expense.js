@@ -15,13 +15,11 @@ const Op = Sequelize.Op;
 
 
 
-
 router.get("/", async(req, res) => {
     try{
         // past 10 entries
         const expenses = await db.expense.findAll({ limit: 10 });
         const expenseDay = await db.expense.aggregate('date', 'DISTINCT', { plain: false })
-
         res.render("expense/home", { expenses, expenseDay })
     }catch(e) {
         console.log("******ERROR******")
@@ -31,15 +29,15 @@ router.get("/", async(req, res) => {
 
 // New Expense Form Route
 router.get("/new", (req, res) => {
-    // let today = new Date();
-    // const dd = String(today.getDate()).padStart(2, '0');
-    // const mm = String(today.getMonth() + 1).padStart(2, '0');
-    // const yyyy = today.getFullYear();
-    // today = mm + '/' + dd + '/' + yyyy;
-
+    let today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    today = yyyy + '-' + mm + '-' + dd;
+    console.log(today)
     db.category.findAll()
     .then(function(categories) {
-        res.render("expense/new", { categories: categories })
+        res.render("expense/new", { categories: categories, today })
     })
 })
 
@@ -170,7 +168,7 @@ router.post("/", async(req, res) => {
     }
 })
 
-// Params
+// Params, for redirect after update
 router.get("/:id", async(req, res) => {
     try{
         const chosenDateO = await db.expense.findByPk(req.params.id)
@@ -199,7 +197,7 @@ router.get('/:id/edit', (req, res) => {
 
 // PUT Update
 router.put('/:id', (req, res) => {
-    db.expense.update({ name: req.body.name }, {
+    db.expense.update({ name: req.body.name, amount: req.body.amount }, {
       where: {
         id: req.params.id
       }
@@ -208,6 +206,32 @@ router.put('/:id', (req, res) => {
         console.log('Updated = ', update);
         res.redirect(`/expense/${req.params.id}`);
     });
+  });
+
+  // DELETE Dogs Destroy
+// router.delete('/:id', (req, res) => {
+//     db.expense.destroy({
+//       where: {
+//         id: req.params.id
+//       }
+//     })
+//     .then((deleted) => {
+//       console.log('Deleted = ', deleted);
+//       res.redirect(`/expense/${req.params.id}`);
+//     });
+//   });
+router.delete('/:id', async(req, res) => {
+    try{
+        const deleted = await db.expense.destroy({
+          where: {
+            id: req.params.id
+        }
+    })
+    res.redirect(`/expense/`);
+        
+    }catch(e) {
+        console.log("***ERROR***", e.message)
+    }
   });
 
 

@@ -1,4 +1,8 @@
 <form action="/expense/<%=expense.id%>?_method=PUT" method="POST">
     <input type="text" name="name" value="<%=expense.name%>"><br>
+    <input type="text" name="amount" value="<%=expense.amount%>"><br>
     <button type="submit">Update</button>
-  </form>
+</form>
+<form action="/expense/<%=expense.id%>?_method=DELETE" method="POST">
+    <button type="submit">Delete</button>
+</form>  

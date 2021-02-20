@@ -3,7 +3,7 @@
     <% for (let i = 0; i < expenses.length; i++){%>
         <li>
             <%=expenses[i].name + ' $' + expenses[i].amount + ' '%><a href="/expense/<%=expenses[i].id%>/edit">Edit</a>
-            <% console.log(expenses[i]) %>
+            <% theSum += parseFloat(expenses[i].amount) %> 
         </li>
     <%}%>
   </ul>
