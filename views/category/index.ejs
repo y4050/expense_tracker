@@ -1,23 +1,23 @@
 <h2>Your Categories:</h2>
 <a href="/category/new">Create New Category</a>
 <h2><%= theCat %>: </h2>
-<% categories.forEach(function(category) { %>
+<% findCat.forEach(function(cat) { %>
     <div>
         <li style="list-style: none;">
-        <% expenses.forEach(function(expense) { %>
-            <% if(category.id == expense.categoryId) { %>
-                <%= category.name %>
-                <img src="<%= category.img %>" alt="No Image" style="max-width: 1.5%;">
-                <a href="/category/<%=category.id%>/edit">Edit</a>
-                <% let sum = 0 %>
-                <% expenses.forEach(function(expense) { %>
-                    <% if(expense.categoryId == category.id) { %>
-                        <% sum+= parseFloat(expense.amount) %> 
-                    <% }%>
-                <% }) %>
-                <p>Total: $<%= sum %></p>
-            <% } %>
-        <% }) %> 
+            <% categories.forEach(function(category){ %>
+                <% if(cat.DISTINCT == category.id) { %> 
+                    <%= category.name %>
+                    <img src="<%= category.img %>" alt="No Image" style="max-width: 1.5%;">
+                    <a href="/category/<%=category.id%>/edit">Edit</a>
+                    <% let sum = 0 %>
+                    <% expenses.forEach(function(expense) { %>
+                        <% if(category.id == expense.categoryId) { %>
+                            <% sum+= parseFloat(expense.amount) %> 
+                <% } %>
+            <% }) %> 
+            <p>Total: $<%= sum %></p>
         </li>
+                <% } %> 
+            <% }) %> 
     </div>
 <% }) %>

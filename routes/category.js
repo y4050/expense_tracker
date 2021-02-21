@@ -22,39 +22,26 @@ router.get("/", async(req, res) => {
     }
 });
 
-//  findCat.forEAch(function(cat) { 
-//    let sum = 0  
-//    expenses.forEach(function(expense) { 
-//        if(expense.categoryId == cat.DISTINCT) {  
-//            sum += expense  
-//        })  
-//       <li>
-//           = cat.DISTINCT   sum  
-//       </li>
-//    })  
-//  }  
-
-
-
-
-// // Temp index
 // <h2>Your Categories:</h2>
 // <a href="/category/new">Create New Category</a>
 // <h2><%= theCat %>: </h2>
 // <% categories.forEach(function(category) { %>
 //     <div>
-        
 //         <li style="list-style: none;">
-//             <%= category.name %>
-//             <img src="<%= category.img %>" alt="No Image" style="max-width: 1.5%;">
-//             <a href="/category/<%=category.id%>/edit">Edit</a>
-//             <% let sum = 0 %>
-//             <% expenses.forEach(function(expense) { %>
-//                 <% if(expense.categoryId == category.id) { %>
-//                     <% sum+= parseFloat(expense.amount) %> 
-//                 <% }%>
-//             <% }) %>
-//             <p>Total: $<%= sum %></p>
+//         <% expenses.forEach(function(expense) { %>
+//             <% if(category.id == expense.categoryId) { %>
+//                 <%= category.name %>
+//                 <img src="<%= category.img %>" alt="No Image" style="max-width: 1.5%;">
+//                 <a href="/category/<%=category.id%>/edit">Edit</a>
+//                 <% let sum = 0 %>
+//                 <% expenses.forEach(function(expense) { %>
+//                     <% if(expense.categoryId == category.id) { %>
+//                         <% sum+= parseFloat(expense.amount) %> 
+//                     <% }%>
+//                 <% }) %>
+//                 <p>Total: $<%= sum %></p>
+//             <% } %>
+//         <% }) %> 
 //         </li>
 //     </div>
 // <% }) %>
