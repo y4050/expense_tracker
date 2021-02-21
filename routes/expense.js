@@ -21,7 +21,8 @@ const isLoggedIn = require('../middleware/isLoggedIn');
 router.get("/", async(req, res) => {
     try{
         // past 10 entries
-        const expenses = await db.expense.findAll({ limit: 10 });
+        const currentUser = req.user.id
+        const expenses = await db.expense.findAll({ limit: 10, where: {userId: currentUser}});
         const expenseDay = await db.expense.aggregate('date', 'DISTINCT', { plain: false })
 
         res.render("expense/home", { expenses, expenseDay })
@@ -160,11 +161,13 @@ router.post("/", async(req, res) => {
         // if(!req.user){
         //     req.guest.id + 1
         // }
+        const id = await req.user.id
         const date = await req.body.date;
         const name = await req.body.name;
         const categoryId = await req.body.categoryId;
         const amount = await req.body.amount;
         db.expense.create({
+            userId: id,
             name: name,
             date: date,
             categoryId: categoryId,
