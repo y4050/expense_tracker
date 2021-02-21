@@ -8,18 +8,68 @@ const uploads = multer({ dest: './uploads'});
 
 router.get("/", async(req, res) => {
     try{
+      const currentUser = req.user.id;
       const categories = await db.category.findAll()
-      const expenses = await db.expense.findAll({where: {userId: req.user.id}})
+      const findCat = await db.expense.aggregate('categoryId', 'DISTINCT', { plain: false, where: {userId: currentUser} } )
+      const expenses = await db.expense.findAll({
+        where: { userId: req.user.id },
+        include: [db.category]
+      })
       const theCat = 'All Categories'
-      res.render("category/index", { categories, expenses, theCat })
+      res.render("category/index", { categories, expenses, theCat, currentUser, findCat })
     }catch(e) {
       console.log("****ERROR****", e.message)
     }
 });
 
+//  findCat.forEAch(function(cat) { 
+//    let sum = 0  
+//    expenses.forEach(function(expense) { 
+//        if(expense.categoryId == cat.DISTINCT) {  
+//            sum += expense  
+//        })  
+//       <li>
+//           = cat.DISTINCT   sum  
+//       </li>
+//    })  
+//  }  
+
+
+
+
+// // Temp index
+// <h2>Your Categories:</h2>
+// <a href="/category/new">Create New Category</a>
+// <h2><%= theCat %>: </h2>
+// <% categories.forEach(function(category) { %>
+//     <div>
+        
+//         <li style="list-style: none;">
+//             <%= category.name %>
+//             <img src="<%= category.img %>" alt="No Image" style="max-width: 1.5%;">
+//             <a href="/category/<%=category.id%>/edit">Edit</a>
+//             <% let sum = 0 %>
+//             <% expenses.forEach(function(expense) { %>
+//                 <% if(expense.categoryId == category.id) { %>
+//                     <% sum+= parseFloat(expense.amount) %> 
+//                 <% }%>
+//             <% }) %>
+//             <p>Total: $<%= sum %></p>
+//         </li>
+//     </div>
+// <% }) %>
+
+
+
+
+
+
+
+
+
 router.get("/new", async(req, res) => {
   try{
-    const category = await db.category.findAll()
+    const categories = await db.category.findAll()
     res.render("category/new", { categories: categories })
 
   }catch(e) {
