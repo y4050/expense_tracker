@@ -26,6 +26,7 @@ router.get("/", async(req, res) => {
         const expenses = await db.expense.findAll({ limit: 10, where: {userId: currentUser}});
         const expenseDay = await db.expense.aggregate('date', 'DISTINCT', { plain: false, where: {userId: currentUser} } )
         const findCat = await db.expense.aggregate('categoryId', 'DISTINCT', { plain: false, where: {userId: currentUser} } )
+        const categories = await db.category.findAll();
         let today = new Date();
         const yyyy = today.getFullYear();
         // specific selection option
@@ -72,7 +73,7 @@ router.get("/", async(req, res) => {
         let uDay = [...new Set(days)];
 
 
-        res.render("expense/home", { expenses, expenseDay, findCat, yyyy, allExpense, uYear, uMonth, uDay })
+        res.render("expense/home", { expenses, expenseDay, findCat, yyyy, allExpense, uYear, uMonth, uDay, categories })
     }catch(e) {
         console.log("******ERROR******")
         console.log(e.message)
