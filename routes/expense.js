@@ -186,18 +186,21 @@ router.get("/:id", async(req, res) => {
 
 
 // GET Edit
-router.get('/:id/edit', (req, res) => {
-    db.expense.findOne({ where: {id: req.params.id}})
-    .then((chosen)=> {
-      res.render('expense/edit', {
-        expense: chosen,
-      });
-    });
+router.get('/:id/edit', async(req, res) => {
+    try{
+        const expense = await db.expense.findOne({ where: {id: req.params.id}})
+        const category = await db.category.findAll()
+        console.log("HEREEEE",category)
+        res.render('expense/edit', { expense, category });
+    }catch(e) {
+        console.log("***ERROR***", e.message)
+    }
+
   });
 
 // PUT Update
 router.put('/:id', (req, res) => {
-    db.expense.update({ name: req.body.name, amount: req.body.amount }, {
+    db.expense.update({ name: req.body.name, amount: req.body.amount, categoryId: req.body.categoryId }, {
       where: {
         id: req.params.id
       }
