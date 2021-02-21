@@ -11,14 +11,6 @@
   <input type="file" name="inputFile" value="none" >
   </div>
   <button type="submit" class="btn btn-primary">Confirm</button>
-  <a href="/expense/new">Cancel</a>
+  <a href="/category">Cancel</a>
+  <a href="/expense/new">Back To New Expense</a>
 </form>
-
-<h2>Your Categories:</h2>
-<% categories.forEach(function(category) { %>
-  <li><%= category.name %><img src="<%= category.img %>" alt="No Image" style="max-width: 1.5%;">
-    <form action="/category/<%=category.id%>?_method=DELETE" method="POST">
-      <button type="submit">Delete</button>
-    </form>  
-  </li>
-<% }) %>

@@ -207,19 +207,8 @@ router.put('/:id', (req, res) => {
         res.redirect(`/expense/${req.params.id}`);
     });
   });
-
-  // DELETE Dogs Destroy
-// router.delete('/:id', (req, res) => {
-//     db.expense.destroy({
-//       where: {
-//         id: req.params.id
-//       }
-//     })
-//     .then((deleted) => {
-//       console.log('Deleted = ', deleted);
-//       res.redirect(`/expense/${req.params.id}`);
-//     });
-//   });
+  
+// Delete
 router.delete('/:id', async(req, res) => {
     try{
         const deleted = await db.expense.destroy({

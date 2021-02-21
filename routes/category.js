@@ -6,12 +6,15 @@ const cloudinary = require('cloudinary');
 // uploader for images, make a uploads folder, pass through the route as middleware
 const uploads = multer({ dest: './uploads'});
 
-router.get("/", (req, res) => {
-    db.category.findAll()
-    .then(function(categories) {
-        res.render("category/index", { categories: categories })
-    })
-})
+router.get("/", async(req, res) => {
+    try{
+      const categories = await db.category.findAll()
+      const expenses = await db.expense.findAll()
+      res.render("category/index", { categories, expenses })
+    }catch(e) {
+      console.log("****ERROR****", e.message)
+    }
+});
 
 router.get("/new", (req, res) => {
     db.category.findAll()
@@ -32,12 +35,36 @@ router.post("/", uploads.single('inputFile'), async(req, res) => {
                 name: name,
                 img: result.url
             })
-            res.redirect('/expense/new');
+            res.redirect('/category/');
         });
     }catch(e) {
         console.log(e.message);
     }
 });
+
+
+// GET Edit
+router.get('/:id/edit', (req, res) => {
+    db.category.findOne({ where: {id: req.params.id}})
+    .then((chosen)=> {
+      res.render('category/edit', {
+        category: chosen,
+      });
+    });
+  });
+
+// PUT Update
+router.put('/:id', (req, res) => {
+    db.category.update({ name: req.body.name }, {
+      where: {
+        id: req.params.id
+      }
+    })
+    .then((update)=> {
+        console.log('Updated = ', update);
+        res.redirect('/category/');
+    });
+  });
 
 
 // DELETE

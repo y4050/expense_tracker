@@ -1,0 +1,9 @@
+<form action="/category/<%=category.id%>?_method=PUT" method="POST">
+    <input type="text" name="name" value="<%=category.name%>"><br>
+    <button type="submit">Update</button>
+</form>
+<form action="/category/<%=category.id%>?_method=DELETE" method="POST">
+    <button type="submit">Delete</button>
+</form>  
+
+<a href="/category/">Cancel</a>
