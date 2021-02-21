@@ -9,19 +9,23 @@ const uploads = multer({ dest: './uploads'});
 router.get("/", async(req, res) => {
     try{
       const categories = await db.category.findAll()
-      const expenses = await db.expense.findAll()
-      res.render("category/index", { categories, expenses })
+      const expenses = await db.expense.findAll({where: {userId: req.user.id}})
+      const theCat = 'All Categories'
+      res.render("category/index", { categories, expenses, theCat })
     }catch(e) {
       console.log("****ERROR****", e.message)
     }
 });
 
-router.get("/new", (req, res) => {
-    db.category.findAll()
-    .then(function(categories) {
-        res.render("category/new", { categories: categories })
-    })
-})
+router.get("/new", async(req, res) => {
+  try{
+    const category = await db.category.findAll()
+    res.render("category/new", { categories: categories })
+
+  }catch(e) {
+    console.log("***ERROR***", e.message)
+  }
+});
 
 router.post("/", uploads.single('inputFile'), async(req, res) => {
     try {
@@ -41,6 +45,26 @@ router.post("/", uploads.single('inputFile'), async(req, res) => {
         console.log(e.message);
     }
 });
+
+// View by Category
+router.post("/select", async(req, res) => {
+  try {
+      const chosenCat = await req.body.theCategory;
+      const theSum = 0;
+      const user = req.user.id
+      let getCat = await db.category.findOne({ where: { id: chosenCat }});
+      let catImg = getCat.img
+      let theCat = getCat.name
+      let expenses = await db.expense.findAll({
+          where: { categoryId: chosenCat, userId: user },
+          order: [[ 'date', 'ASC' ]]
+      });
+      
+      res.render("category/selectShow", { expenses, theSum, theCat, catImg })
+  }catch(e) {
+      console.log("******ERROR*****", e.message)
+  }
+})
 
 
 // GET Edit

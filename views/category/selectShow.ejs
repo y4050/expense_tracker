@@ -1,0 +1,14 @@
+<h2>Your Categories:</h2>
+<h2><%= theCat %><img src="<%= catImg %>" alt="No Image" style="max-width: 1.5%;">: </h2>
+<div>
+    <% let sum = 0 %>
+    <% expenses.forEach(function(expense) { %>
+        <li style="list-style: none;">
+            <%= expense.date + ' ' %><%= expense.name + ' '%><%= '$' + expense.amount %>
+            <% sum+= parseFloat(expense.amount) %> 
+        </li>
+    <% }) %>
+    <p>Total: $<%= sum %></p>
+</div>
+
+<a href="/expense">Back To Main</a>

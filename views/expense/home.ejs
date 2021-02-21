@@ -95,3 +95,17 @@
     
     <input type="submit" class="btn btn-primary">
   </form>
+
+
+  <form action="/category/select" method="POST">
+    <div class="form-group">
+      <label for="Category"><h3>Select A Category View:</h3></label>
+      <select name="theCategory" id="category" class="form-control" required>
+        <% findCat.forEach(function(cat) { %>
+          <option value="<%= cat.DISTINCT%>"><%= cat.DISTINCT %></option>
+        <% }) %>
+      </select>
+    </div>
+    
+    <input type="submit" class="btn btn-primary">
+  </form>
