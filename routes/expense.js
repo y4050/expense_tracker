@@ -36,27 +36,37 @@ router.get("/", async(req, res) => {
         console.log(allExpenses)
 
         // year
-        if (allExpenses.date == null){
+        if (allExpenses.date === null){
         } else {
-            allExpenses.forEach(function(expense) {
-                years.push(expense.date.substring(0,4))
-            })
+            for (i of allExpenses){
+                let temp = ''
+                temp = String(i.date)
+                years.push(temp.substring(0,4))
+            }
+            // const a = [...allExpenses]
+            // a.forEach(function(expense) {
+            //     years.push(expense.date.substring(0,4))
+            // })
         }
         let uYear = [...new Set(years)];
         // month
-        if (allExpenses.date == null){
+        if (allExpenses.date === null){
         } else {
-            allExpenses.forEach(function(expense) {
-                months.push(expense.date.substring(5,7))
-            })
+            for (i of allExpenses){
+                let temp = ''
+                temp = String(i.date)
+                months.push(temp.substring(5,7))
+            }
         }
         let uMonth = [...new Set(months)];
         // day
-        if (allExpenses.date == null){
-        } else{
-            allExpenses.forEach(function(expense) {
-                days.push(expense.date.substring(8,10))
-            })
+        if (allExpenses.date === null){
+        } else {
+            for (i of allExpenses){
+                let temp = ''
+                temp = String(i.date)
+                days.push(temp.substring(8,10))
+            }
         }
         let uDay = [...new Set(days)];
 
@@ -87,7 +97,27 @@ router.post("/day", async(req, res) => {
     try {
         const chosenDate = await req.body.expenseDate;
         const theSum = 0;
-        console.log(req.user.id)
+        const user = req.user.id
+        let expenses = await db.expense.findAll({
+            where: { date: chosenDate, userId: user },
+            include: [db.category],
+            order: [[ 'date', 'ASC' ]]
+        });
+        
+        res.render("expense/day", { expenses, chosenDate, theSum })
+    }catch(e) {
+        console.log("******ERROR*****", e.message)
+    }
+})
+
+// Specific View Day
+router.post("/spec", async(req, res) => {
+    try {
+        const chosenYear = await req.body.theYear;
+        const chosenMonth = await req.body.theMonth;
+        const chosenDay = await req.body.theDay;
+        const chosenDate = chosenYear + '-' + chosenMonth + '-' + chosenDay
+        const theSum = 0;
         const user = req.user.id
         let expenses = await db.expense.findAll({
             where: { date: chosenDate, userId: user },
