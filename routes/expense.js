@@ -26,7 +26,7 @@ router.get("/", async(req, res) => {
         const expenses = await db.expense.findAll({ limit: 10, where: {userId: currentUser}});
         const expenseDay = await db.expense.aggregate('date', 'DISTINCT', { plain: false, where: {userId: currentUser} } )
         const findCat = await db.expense.aggregate('categoryId', 'DISTINCT', { plain: false, where: {userId: currentUser} } )
-        const categories = await db.category.findAll();
+        const categories = await db.category.findAll({where: {userId: currentUser}});
         let today = new Date();
         const yyyy = today.getFullYear();
         // specific selection option

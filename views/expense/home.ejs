@@ -101,14 +101,8 @@
     <div class="form-group">
       <label for="Category"><h3>Select A Category View:</h3></label>
       <select name="theCategory" id="category" class="form-control" required>
-        <% findCat.forEach(function(cat) { %>
-          <% let name = '' %> 
-          <% categories.forEach(function(cate) { %>
-              <% if(cate.id == cat.DISTINCT) { %>
-                <% name = cate.name %>  
-              <% } %>
-          <% }) %> 
-          <option value="<%= cat.DISTINCT%>"><%= name %></option>
+        <% categories.forEach(function(cat) { %>
+          <option value="<%= cat.id%>"><%= cat.name %></option>
         <% }) %>
       </select>
     </div>

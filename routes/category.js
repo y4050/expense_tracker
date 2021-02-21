@@ -9,7 +9,7 @@ const uploads = multer({ dest: './uploads'});
 router.get("/", async(req, res) => {
     try{
       const currentUser = req.user.id;
-      const categories = await db.category.findAll()
+      const categories = await db.category.findAll({where: {userId: currentUser}})
       const findCat = await db.expense.aggregate('categoryId', 'DISTINCT', { plain: false, where: {userId: currentUser} } )
       const expenses = await db.expense.findAll({
         where: { userId: req.user.id },
@@ -22,29 +22,29 @@ router.get("/", async(req, res) => {
     }
 });
 
-// <h2>Your Categories:</h2>
-// <a href="/category/new">Create New Category</a>
-// <h2><%= theCat %>: </h2>
-// <% categories.forEach(function(category) { %>
-//     <div>
-//         <li style="list-style: none;">
-//         <% expenses.forEach(function(expense) { %>
-//             <% if(category.id == expense.categoryId) { %>
-//                 <%= category.name %>
-//                 <img src="<%= category.img %>" alt="No Image" style="max-width: 1.5%;">
-//                 <a href="/category/<%=category.id%>/edit">Edit</a>
-//                 <% let sum = 0 %>
-//                 <% expenses.forEach(function(expense) { %>
-//                     <% if(expense.categoryId == category.id) { %>
-//                         <% sum+= parseFloat(expense.amount) %> 
-//                     <% }%>
-//                 <% }) %>
-//                 <p>Total: $<%= sum %></p>
-//             <% } %>
-//         <% }) %> 
-//         </li>
-//     </div>
-// <% }) %>
+{/* <h2>Expense By<%= ' '+theCat %>: </h2>
+<% findCat.forEach(function(cat) { %>
+    <div>
+        <li style="list-style: none;">
+            <% categories.forEach(function(category){ %>
+                <% if(cat.DISTINCT == category.id) { %> 
+                    <%= category.name %>
+                    <img src="<%= category.img %>" alt="No Image" style="max-width: 1.5%;">
+                    <a href="/category/<%=category.id%>/edit">Edit</a>
+                    <% let sum = 0 %>
+                    <% expenses.forEach(function(expense) { %>
+                        <% if(category.id == expense.categoryId) { %>
+                            <% sum+= parseFloat(expense.amount) %> 
+                <% } %>
+            <% }) %> 
+            <p>Total: $<%= sum %></p>
+        </li>
+                <% } %> 
+            <% }) %> 
+    </div>
+<% }) %>
+<a href="/category/new">Create New Category</a><br />
+<a href="/expense/">Back To Main</a> */}
 
 
 
@@ -56,7 +56,8 @@ router.get("/", async(req, res) => {
 
 router.get("/new", async(req, res) => {
   try{
-    const categories = await db.category.findAll()
+    
+    const categories = await db.category.findAll({where: {userId: req.user.id}})
     res.render("category/new", { categories: categories })
 
   }catch(e) {
@@ -67,13 +68,13 @@ router.get("/new", async(req, res) => {
 router.post("/", uploads.single('inputFile'), async(req, res) => {
     try {
         const image = await req.file.path;
-        console.log(image);
         const name = await req.body.name;
-        console.log(name)
+        const userId = await req.user.id;
         cloudinary.uploader.upload(image, (result) => {
             // console.log(result);
             db.category.create({
                 name: name,
+                userId: userId,
                 img: result.url
             })
             res.redirect('/category/');
