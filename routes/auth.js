@@ -2,6 +2,14 @@ const express = require('express');
 const passport = require('../config/ppConfig');
 const router = express.Router();
 
+const multer = require('multer');
+const cloudinary = require('cloudinary');
+// uploader for images, make a uploads folder, pass through the route as middleware
+const uploads = multer({ dest: './uploads'});
+
+
+
+
 // import database
 const db = require('../models');
 
@@ -21,13 +29,22 @@ router.get('/logout', (req, res) => {
 
 
 // What routes do we need (post routes)
-router.post('/signup', (req, res) => {
+router.post('/signup', uploads.single("inputFile"), (req, res) => {
   // we now have access to the user info (req.body);
   // console.log(req.body);
-  const { email, name, password } = req.body; // goes and us access to whatever key/value inside of the object (req.body)
-  db.user.findOrCreate({
-    where: { email },
-    defaults: { name, password }
+  const image = req.file.path;
+  let profilePic = '';
+  cloudinary.uploader.upload(image, (result) => {
+    profilePic = result.url
+    console.log("*********THIS*******",profilePic)
+  })
+  .then((result)=>{
+    const { email, name, password } = req.body; // goes and us access to whatever key/value inside of the object (req.body)
+    const profilePic = result.url
+    db.user.findOrCreate({
+      where: { email },
+      defaults: { name, password, profilePic }
+    })
   })
   .then(([user, created]) => {
     if (created) {

@@ -1,4 +1,4 @@
-<form action="/auth/signup" method="POST">
+<form action="/auth/signup" method="POST" enctype="multipart/form-data">
   <label for="new-email">Email</label>
   <input id="new-email" type="email" name="email">
 
@@ -7,6 +7,9 @@
 
   <label for="new-password">Password</label>
   <input id="new-password" type="password" name="password">
+
+  <label for="inputFile">Profile Picture</label>
+  <input type="file" name="inputFile">
 
   <input type="submit" value="Sign up">
 </form>

@@ -12,6 +12,9 @@ const Op = Sequelize.Op;
 // app.use(methodOverride('_method'));
 // app.use(bodyParser.urlencoded({extended: false}));
 
+// Session 
+const SECRET_SESSION = process.env.SECRET_SESSION;
+const isLoggedIn = require('../middleware/isLoggedIn');
 
 
 
@@ -20,6 +23,7 @@ router.get("/", async(req, res) => {
         // past 10 entries
         const expenses = await db.expense.findAll({ limit: 10 });
         const expenseDay = await db.expense.aggregate('date', 'DISTINCT', { plain: false })
+
         res.render("expense/home", { expenses, expenseDay })
     }catch(e) {
         console.log("******ERROR******")
@@ -48,7 +52,8 @@ router.post("/day", async(req, res) => {
         const theSum = 0;
         let expenses = await db.expense.findAll({
             where: { date: chosenDate },
-            include: [db.category]
+            include: [db.category],
+            order: [[ 'date', 'ASC' ]]
         });
         
         res.render("expense/day", { expenses, chosenDate, theSum })
@@ -151,7 +156,10 @@ router.post("/year", async(req, res) => {
 // New Expense Entry
 router.post("/", async(req, res) => {
     try{
-        console.log(req.body)
+        const users = ''
+        // if(!req.user){
+        //     req.guest.id + 1
+        // }
         const date = await req.body.date;
         const name = await req.body.name;
         const categoryId = await req.body.categoryId;
@@ -199,7 +207,7 @@ router.get('/:id/edit', async(req, res) => {
   });
 
 // PUT Update
-router.put('/:id', (req, res) => {
+router.put('/:id', isLoggedIn, (req, res) => {
     db.expense.update({ name: req.body.name, amount: req.body.amount, categoryId: req.body.categoryId }, {
       where: {
         id: req.params.id

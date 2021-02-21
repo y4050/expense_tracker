@@ -10,6 +10,8 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 
+
+
 // ------------------------------------ MIDDLEWARE
 const app = express();
 app.set('view engine', 'ejs');
