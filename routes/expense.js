@@ -15,6 +15,7 @@ const Op = Sequelize.Op;
 // Session 
 const SECRET_SESSION = process.env.SECRET_SESSION;
 const isLoggedIn = require('../middleware/isLoggedIn');
+const e = require("express");
 
 
 
@@ -23,9 +24,44 @@ router.get("/", async(req, res) => {
         // past 10 entries
         const currentUser = req.user.id
         const expenses = await db.expense.findAll({ limit: 10, where: {userId: currentUser}});
-        const expenseDay = await db.expense.aggregate('date', 'DISTINCT', { plain: false })
+        const expenseDay = await db.expense.aggregate('date', 'DISTINCT', { plain: false, where: {userId: currentUser} } )
+        let today = new Date();
+        const yyyy = today.getFullYear();
+        // specific selection option
+        const allExpense = await db.expense.findAll({ where: { userId: currentUser}});
+        const years = []
+        const months = []
+        const days = []
+        const allExpenses = [...allExpense];
+        console.log(allExpenses)
 
-        res.render("expense/home", { expenses, expenseDay })
+        // year
+        if (allExpenses.date == null){
+        } else {
+            allExpenses.forEach(function(expense) {
+                years.push(expense.date.substring(0,4))
+            })
+        }
+        let uYear = [...new Set(years)];
+        // month
+        if (allExpenses.date == null){
+        } else {
+            allExpenses.forEach(function(expense) {
+                months.push(expense.date.substring(5,7))
+            })
+        }
+        let uMonth = [...new Set(months)];
+        // day
+        if (allExpenses.date == null){
+        } else{
+            allExpenses.forEach(function(expense) {
+                days.push(expense.date.substring(8,10))
+            })
+        }
+        let uDay = [...new Set(days)];
+
+
+        res.render("expense/home", { expenses, expenseDay, yyyy, allExpense, uYear, uMonth, uDay })
     }catch(e) {
         console.log("******ERROR******")
         console.log(e.message)
@@ -51,8 +87,10 @@ router.post("/day", async(req, res) => {
     try {
         const chosenDate = await req.body.expenseDate;
         const theSum = 0;
+        console.log(req.user.id)
+        const user = req.user.id
         let expenses = await db.expense.findAll({
-            where: { date: chosenDate },
+            where: { date: chosenDate, userId: user },
             include: [db.category],
             order: [[ 'date', 'ASC' ]]
         });
@@ -70,13 +108,17 @@ router.post("/month", async(req, res) => {
         const chosenDate = await req.body.expenseDate;
         const theSum = 0;
         // to find month like '01%'
-        const theMonth = '20%' + chosenDate + '%';
-        console.log(theMonth)
+        let today = new Date();
+        const yyyy = today.getFullYear();
+        const theMonth = `${yyyy}-` + chosenDate + '-%';
+        const currentUser = req.user.id
         let expenses = await db.expense.findAll({
             where: {
                 date: {
-                    [Op.like]: theMonth
-                }
+                    [Op.iLike]: theMonth,
+
+                },
+                userId: req.user.id
             },
             include: [db.category]
         });
@@ -130,22 +172,23 @@ router.post("/year", async(req, res) => {
             where: {
                 date: {
                     [Op.like]: theYear
-                }
+                },
+                userId: req.user.id
             }
         });
         // monthly
-        const jan = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"01%" } } });
-        const feb = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"02%" } } });
-        const mar = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"03%" } } });
-        const apr = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"04%" } } });
-        const may = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"05%" } } });
-        const jun = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"06%" } } });
-        const jul = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"07%" } } });
-        const aug = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"08%" } } });
-        const sep = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"09%" } } });
-        const oct = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"10%" } } });
-        const nov = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"11%" } } });
-        const dec = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"12%" } } });
+        const jan = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"01-%" }, userId: req.user.id } });
+        const mar = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"03-%" }, userId: req.user.id } });
+        const feb = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"02-%" }, userId: req.user.id } });
+        const apr = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"04-%" }, userId: req.user.id } });
+        const may = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"05-%" }, userId: req.user.id } });
+        const jun = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"06-%" }, userId: req.user.id } });
+        const jul = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"07-%" }, userId: req.user.id } });
+        const aug = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"08-%" }, userId: req.user.id } });
+        const sep = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"09-%" }, userId: req.user.id } });
+        const oct = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"10-%" }, userId: req.user.id } });
+        const nov = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"11-%" }, userId: req.user.id } });
+        const dec = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"12-%" }, userId: req.user.id } });
 
         console.log(feb)
         res.render("expense/year", { expenses, expenseDay, chosenDate, theSum, chosenYear, jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec })
