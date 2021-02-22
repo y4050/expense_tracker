@@ -2,6 +2,7 @@
 <table class="table" style="max-width: 60%;">
     <thead>
         <tr>
+            <th scope="col">Category</th>
             <th scope="col">Item Name</th>
             <th scope="col">Amount</th>
             <th scope="col">Action</th>
@@ -10,6 +11,7 @@
       <tbody>
         <% expenses.forEach(function(expense) { %>
         <tr>
+              <td><%= expense.category.name %></td>
               <td><%= expense.name %></td>
               <td>$<%= expense.amount %></td>
               <td><a href="/expense/<%=expense.id%>/edit">Edit</a></td>
@@ -21,6 +23,6 @@
     <%}%>
 </table>
 
-<p>Total: $<%= theSum.toFixed(2) %></p>
+<h3>Total: $<%= theSum.toFixed(2) %></h3>
 
 <a href="/expense">Back To Main</a>

@@ -1,7 +1,8 @@
-<p style="font-weight: bolder;">Recent(Last 10 Expenses):</p>
+<p style="font-weight: bolder;">Recent(Last 5 Expenses):</p>
 <table class="table" style="max-width: 60%;">
   <thead>
     <tr>
+      <th scope="col">Category</th>
       <th scope="col">Date</th>
       <th scope="col">Item Name</th>
       <th scope="col">Amount</th>
@@ -10,6 +11,7 @@
   <tbody>
     <% expenses.forEach(function(expense) { %>
     <tr>
+          <td><%= expense.category.name %></td>
           <td><%= expense.date %></td>
           <td><%= expense.name %></td>
           <td>$<%= expense.amount %></td>
@@ -23,7 +25,7 @@
 <p></p>
 
 <form action="/expense/day" method="POST">
-  <label for="Expense"><p style="font-weight: bolder;">Select A Recent Date To View:</p></label>
+  <label for="Expense"><p style="font-weight: bolder;">Select A Recent Date To View(Last 10 Dates):</p></label>
   <br />
   <div>
     <select name="expenseDate" id="expense" class="form-select" aria-label="Default select example" style="max-width: 20%; min-width: 150px; display: inline;" required>

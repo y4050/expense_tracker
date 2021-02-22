@@ -3,14 +3,6 @@ const db = require("../models");
 const router = express.Router();
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-// const methodOverride = require('method-override');
-// const bodyParser = require('body-parser');
-
-// // ------------------------------------ MIDDLEWARE
-// const app = express();
-// app.set('view engine', 'ejs');
-// app.use(methodOverride('_method'));
-// app.use(bodyParser.urlencoded({extended: false}));
 
 // Session 
 const SECRET_SESSION = process.env.SECRET_SESSION;
@@ -18,19 +10,26 @@ const isLoggedIn = require('../middleware/isLoggedIn');
 const e = require("express");
 
 
-
+// Routes
 router.get("/", async(req, res) => {
     try{
-        // past 10 entries
+        // past 5 entries
         const currentUser = req.user.id
-        const expenses = await db.expense.findAll({ limit: 10, where: {userId: currentUser}});
-        const expenseDay = await db.expense.aggregate('date', 'DISTINCT', { plain: false, where: {userId: currentUser} } )
+        const expenses = await db.expense.findAll({ limit: 5, where: {userId: currentUser},
+        include: [db.category],
+        order: [["date", "DESC"]]
+         });
+        // for unique date
+        const expenseDay = await db.expense.aggregate('date', 'DISTINCT', { plain: false, limit: 10, where: {userId: currentUser} } )
+        // for unique category selection
         const findCat = await db.expense.aggregate('categoryId', 'DISTINCT', { plain: false, where: {userId: currentUser} } )
         const categories = await db.category.findAll({where: {userId: currentUser}});
+        // for Month View, of current year
         let today = new Date();
         const yyyy = today.getFullYear();
         // specific selection option
         const allExpense = await db.expense.findAll({ where: { userId: currentUser}});
+        // for making select specific date's selections
         const years = []
         const months = []
         const days = []
@@ -44,12 +43,14 @@ router.get("/", async(req, res) => {
                 temp = String(i.date)
                 years.push(temp.substring(0,4))
             }
-            // const a = [...allExpenses]
-            // a.forEach(function(expense) {
-            //     years.push(expense.date.substring(0,4))
-            // })
         }
         let uYear = [...new Set(years)];
+        // // alters data in db
+        // const a = [...allExpenses]
+        // a.forEach(function(expense) {
+        //     years.push(expense.date.substring(0,4))
+        // })
+        
         // month
         if (allExpenses.date === null){
         } else {
@@ -152,7 +153,8 @@ router.post("/month", async(req, res) => {
             },
             include: [db.category]
         });
-        // make month display more user friendly
+
+        // Month View Page Title Month Name
         let monthName = '';
         if (chosenDate == '01') {
             monthName = 'January'
@@ -205,10 +207,10 @@ router.post("/year", async(req, res) => {
                 userId: req.user.id
             }
         });
-        // monthly
+        // Per Month
         const jan = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"01-%" }, userId: req.user.id } });
-        const mar = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"03-%" }, userId: req.user.id } });
         const feb = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"02-%" }, userId: req.user.id } });
+        const mar = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"03-%" }, userId: req.user.id } });
         const apr = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"04-%" }, userId: req.user.id } });
         const may = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"05-%" }, userId: req.user.id } });
         const jun = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"06-%" }, userId: req.user.id } });

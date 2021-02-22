@@ -22,30 +22,6 @@ router.get("/", async(req, res) => {
     }
 });
 
-{/* <h2>Expense By<%= ' '+theCat %>: </h2>
-<% findCat.forEach(function(cat) { %>
-    <div>
-        <li style="list-style: none;">
-            <% categories.forEach(function(category){ %>
-                <% if(cat.DISTINCT == category.id) { %> 
-                    <%= category.name %>
-                    <img src="<%= category.img %>" alt="No Image" style="max-width: 1.5%;">
-                    <a href="/category/<%=category.id%>/edit">Edit</a>
-                    <% let sum = 0 %>
-                    <% expenses.forEach(function(expense) { %>
-                        <% if(category.id == expense.categoryId) { %>
-                            <% sum+= parseFloat(expense.amount) %> 
-                <% } %>
-            <% }) %> 
-            <p>Total: $<%= sum %></p>
-        </li>
-                <% } %> 
-            <% }) %> 
-    </div>
-<% }) %>
-<a href="/category/new">Create New Category</a><br />
-<a href="/expense/">Back To Main</a> */}
-
 
 router.get("/new", async(req, res) => {
   try{
@@ -64,7 +40,6 @@ router.post("/", uploads.single('inputFile'), async(req, res) => {
         const name = await req.body.name;
         const userId = await req.user.id;
         cloudinary.uploader.upload(image, (result) => {
-            // console.log(result);
             db.category.create({
                 name: name,
                 userId: userId,
@@ -86,7 +61,6 @@ router.post("/select", async(req, res) => {
       let getCat = await db.category.findOne({ where: { id: chosenCat }});
       let catImg = getCat.img
       const theCat = getCat.name
-      console.log(theCat)
       let expenses = await db.expense.findAll({
           where: { categoryId: chosenCat, userId: user },
           order: [[ 'date', 'ASC' ]]

@@ -3,6 +3,7 @@
     <thead>
         <tr>
             <th scope="col">Date</th>
+            <th scope="col">Category</th>
             <th scope="col">Item Name</th>
             <th scope="col">Amount</th>
             <th scope="col">Action</th>
@@ -12,6 +13,7 @@
         <% expenses.forEach(function(expense) { %>
         <tr>
               <td><%= expense.date %></td>
+              <td><%= expense.category.name %></td>
               <td><%= expense.name %></td>
               <td>$<%= expense.amount %></td>
               <td><a href="/expense/<%=expense.id%>/edit">Edit</a></td>
