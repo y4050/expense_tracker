@@ -35,7 +35,6 @@ router.get("/", async(req, res) => {
         const months = []
         const days = []
         const allExpenses = [...allExpense];
-        console.log(allExpenses)
 
         // year
         if (allExpenses.date === null){
@@ -87,7 +86,6 @@ router.get("/new", (req, res) => {
     const mm = String(today.getMonth() + 1).padStart(2, '0');
     const yyyy = today.getFullYear();
     today = yyyy + '-' + mm + '-' + dd;
-    console.log(today)
     db.category.findAll()
     .then(function(categories) {
         res.render("expense/new", { categories: categories, today })
@@ -199,7 +197,6 @@ router.post("/year", async(req, res) => {
         const chosenYear = chosenDate.split("-")[0]
         // to search year like '%2021'
         const theYear = chosenDate + '%';
-        console.log(theYear)
         let expenses = await db.expense.findAll({
             where: {
                 date: {
@@ -222,7 +219,6 @@ router.post("/year", async(req, res) => {
         const nov = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"11-%" }, userId: req.user.id } });
         const dec = await db.expense.sum('amount', { where: { date: { [Op.like]: theYear+"12-%" }, userId: req.user.id } });
 
-        console.log(feb)
         res.render("expense/year", { expenses, expenseDay, chosenDate, theSum, chosenYear, jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec })
     }catch(e) {
         console.log("******ERROR*****", e.message)
@@ -276,7 +272,6 @@ router.get('/:id/edit', async(req, res) => {
     try{
         const expense = await db.expense.findOne({ where: {id: req.params.id}})
         const category = await db.category.findAll()
-        console.log("HEREEEE",category)
         res.render('expense/edit', { expense, category });
     }catch(e) {
         console.log("***ERROR***", e.message)
@@ -293,7 +288,7 @@ router.put('/:id', isLoggedIn, (req, res) => {
     })
     .then((update)=> {
         console.log('Updated = ', update);
-        res.redirect(`/expense/${req.params.id}`);
+        res.redirect('/expense/');
     });
   });
   

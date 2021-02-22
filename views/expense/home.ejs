@@ -1,4 +1,4 @@
-<h2>Recent Transactions:</h2>
+<p style="font-weight: bolder;">Recent(Last 10 Expenses):</p>
 <table class="table" style="max-width: 60%;">
   <thead>
     <tr>
@@ -18,12 +18,12 @@
       </tbody>
   </table>
   <div>
-    <a href="/expense/new" style="align-self: center;">Add New Expense</a>
+    <a class="btn btn-primary" href="/expense/new" style="align-self: center;">Add New Expense</a>
   </div>
 <p></p>
 
 <form action="/expense/day" method="POST">
-  <label for="Expense"><h3>Select A Recent Date To View:</h3></label>
+  <label for="Expense"><p style="font-weight: bolder;">Select A Recent Date To View:</p></label>
   <br />
   <div>
     <select name="expenseDate" id="expense" class="form-select" aria-label="Default select example" style="max-width: 20%; min-width: 150px; display: inline;" required>
@@ -39,7 +39,7 @@
 
   <form action="/expense/month" method="POST">
     <div class="form-group">
-      <label for="Expense"><h3>Select Month To View (Current Year: <%= yyyy %> ):</h3></label>
+      <label for="Expense"><p style="font-weight: bolder;">Select Month To View (Current Year: <%= yyyy %> ):</p></label>
       <br />
       <select name="expenseDate" id="expense" class="form-select" aria-label="Default select example" style="max-width: 20%; min-width: 150px; display: inline;"required>
         <option value="01">January</option>
@@ -62,7 +62,7 @@
 <p></p>
   <form action="/expense/year" method="POST">
     <div class="form-group">
-      <label for="Expense"><h3>Select Year To View:</h3></label>
+      <label for="Expense"><p style="font-weight: bolder;">Select Year To View:</p></label>
       <br />
       <select name="expenseYear" id="expense" class="form-select" aria-label="Default select example" style="max-width: 20%; min-width: 150px; display: inline;" required>
         <option value="2021">2021</option>
@@ -78,7 +78,7 @@
 <p></p>
   <form action="/expense/spec" method="POST">
     <div class="form-group">
-      <label for="Year"><h3>Select Specific Date</h3></label>
+      <label for="Year"><p style="font-weight: bolder;">Select Specific Date To View:</p></label>
       <br />
       <label for="Year">Year</label>
       <select name="theYear" id="theYear" class="form-select" aria-label="Default select example" style="max-width: 20%; min-width: 150px; display: inline;" required>
@@ -109,7 +109,7 @@
 <p></p>
   <form action="/category/select" method="POST">
     <div class="form-group">
-      <label for="Category"><h3>Select A Category View:</h3></label>
+      <label for="Category"><p style="font-weight: bolder;">Select A Category View:</p></label>
       <br />
       <select name="theCategory" id="category" class="form-select" aria-label="Default select example" style="max-width: 20%; min-width: 150px; display: inline;" required>
         <% categories.forEach(function(cat) { %>

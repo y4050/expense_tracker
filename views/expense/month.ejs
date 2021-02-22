@@ -1,19 +1,28 @@
 <h2>Month: <%= monthName %></h2>
-<% if (!expenses){ %> 
-        <p>No Record</p>
-    <% } else { %>
+<table class="table" style="max-width: 60%;">
+    <thead>
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Item Name</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Action</th>
+        </tr>
+  </thead>
+      <tbody>
         <% expenses.forEach(function(expense) { %>
-            <div>
-                <li>
-                    <%= expense.date.substring(5, 10).replace('-','/') %>
-                    <%= expense.name %>
-                    $<%= expense.amount %>
+        <tr>
+              <td><%= expense.date %></td>
+              <td><%= expense.name %></td>
+              <td>$<%= expense.amount %></td>
+              <td><a href="/expense/<%=expense.id%>/edit">Edit</a></td>
+            </tr>
+            <% }) %>
+          </tbody>
+    <% for (let i = 0; i < expenses.length; i++){%>
+            <% theSum += parseFloat(expenses[i].amount) %> 
+    <%}%>
+</table>
 
-                    <% theSum += parseFloat(expense.amount) %>
-                </li>
-            </div>
-        <% }) %>
-    <% } %>  
-<h3>Month's total: $<%= theSum.toFixed(2) %></h3>
+<p>Total: $<%= theSum.toFixed(2) %></p>
 
 <a href="/expense">Back To Main</a>

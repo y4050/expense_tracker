@@ -1,14 +1,33 @@
-<h2>Your Categories:</h2>
-<h2><%= theCat %><img src="<%= catImg %>" alt="No Image" style="max-width: 1.5%;">: </h2>
-<div>
+<h2>Selected Category:&nbsp;<%= theCat %></h2>
+<br>
+
+
+<table class="table" style="max-width: 60%;">
+    <thead>
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Name</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
     <% let sum = 0 %>
     <% expenses.forEach(function(expense) { %>
-        <li style="list-style: none;">
-            <%= expense.date + ' ' %><%= expense.name + ' '%><%= '$' + expense.amount %>
-            <% sum+= parseFloat(expense.amount) %> 
-        </li>
-    <% }) %>
-    <p>Total: $<%= sum %></p>
-</div>
+        <tbody>
+            <tr>
+                <td><%= expense.date %></td>
+                <td><%= expense.name %></td>
+                <td>$<%= expense.amount %></td>
+                <td><a href="/expense/<%=expense.id%>/edit">Edit</a></td>
+              </tr>
+              <% }) %>
+            </tbody>
+      <% for (let i = 0; i < expenses.length; i++){%>
+              <% sum += parseFloat(expenses[i].amount) %> 
+      <%}%>
+  </table>
+
+<h3>Total: $<%= sum.toFixed(2) %></h3>
 
 <a href="/expense">Back To Main</a>
+<p>&nbsp;</p>

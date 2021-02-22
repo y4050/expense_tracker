@@ -85,7 +85,8 @@ router.post("/select", async(req, res) => {
       const user = req.user.id
       let getCat = await db.category.findOne({ where: { id: chosenCat }});
       let catImg = getCat.img
-      let theCat = getCat.name
+      const theCat = getCat.name
+      console.log(theCat)
       let expenses = await db.expense.findAll({
           where: { categoryId: chosenCat, userId: user },
           order: [[ 'date', 'ASC' ]]

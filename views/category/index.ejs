@@ -1,19 +1,29 @@
 <h2>Expense By<%= ' '+theCat %>: </h2>
+
+<table class="table" style="max-width: 60%;">
+    <thead>
+        <tr>
+            <th scope="col">Category</th>
+            <th scope="col">Total</th>
+            <th scope="col">Action</th>
+        </tr>
+  </thead>
+
 <% categories.forEach(function(cat) { %>
-    <div>
-        <li style="list-style: none;">
-            <%= cat.name %>
-            <img src="<%= cat.img %>" alt="No Image" style="max-width: 1.5%;">
-            <a href="/category/<%=cat.id%>/edit">Edit</a>
+    <tbody>
+        <tr>
+            <td><img src="<%= cat.img %>" alt="No Image" style="max-width: 5%;">&nbsp;<%= cat.name %></td>
             <% let sum = 0 %>
             <% expenses.forEach(function(expense){ %>
                 <% if(expense.categoryId == cat.id) { %> 
                     <% sum+= parseFloat(expense.amount) %> 
                 <% } %> 
                 <% }) %> 
-            <p>Total: $<%= sum %></p>
-        </li>
-    </div>
-<% }) %>
+            <td>$<%= sum %></td>
+            <td><a href="/category/<%=cat.id%>/edit">Edit</a></td>
+        </tr>
+        <% }) %>
+    </tbody>
+</table>
 <a href="/category/new">Create New Category</a><br />
 <a href="/expense/">Back To Main</a>
