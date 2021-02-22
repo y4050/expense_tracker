@@ -1,13 +1,28 @@
 <h2>Expenses on: <%= chosenDate %></h2>
-<ul>
+<table class="table" style="max-width: 60%;">
+    <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Item Name</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% expenses.forEach(function(expense) { %>
+        <tr>
+              <td><%= expense.date %></td>
+              <td><%= expense.name %></td>
+              <td>$<%= expense.amount %></td>
+              <td><a href="/expense/<%=expense.id%>/edit">Edit</a></td>
+            </tr>
+            <% }) %>
+          </tbody>
     <% for (let i = 0; i < expenses.length; i++){%>
-        <li>
-            <%=expenses[i].name + ' $' + expenses[i].amount + ' '%><a href="/expense/<%=expenses[i].id%>/edit">Edit</a>
             <% theSum += parseFloat(expenses[i].amount) %> 
-        </li>
     <%}%>
-  </ul>
+</table>
 
-<p>Today's total: $<%= theSum.toFixed(2) %></p>
+<p>Total: $<%= theSum.toFixed(2) %></p>
 
 <a href="/expense">Back To Main</a>

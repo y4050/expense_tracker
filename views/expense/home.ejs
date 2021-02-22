@@ -1,33 +1,47 @@
 <h2>Recent Transactions:</h2>
-<% expenses.forEach(function(expense) { %>
-    <div>
-        <li style="list-style: none;">
-            <%= expense.date %>
-            <%= expense.name %>
-            $<%= expense.amount %>
-        </li>
-    </div>
-<% }) %>
-
-<a href="/expense/new">Add New Expense</a>
+<table class="table" style="max-width: 60%;">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Item Name</th>
+      <th scope="col">Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% expenses.forEach(function(expense) { %>
+    <tr>
+          <td><%= expense.date %></td>
+          <td><%= expense.name %></td>
+          <td>$<%= expense.amount %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+  </table>
+  <div>
+    <a href="/expense/new" style="align-self: center;">Add New Expense</a>
+  </div>
+<p></p>
 
 <form action="/expense/day" method="POST">
-    <div class="form-group">
-      <label for="Expense"><h3>Select A Recent Date To View:</h3></label>
-      <select name="expenseDate" id="expense" class="form-control" required>
-        <% expenseDay.forEach(function(expense) { %>
-          <option value="<%= expense.DISTINCT%>"><%= expense.DISTINCT %></option>
-        <% }) %>
-      </select>
-    </div>
-    
+  <label for="Expense"><h3>Select A Recent Date To View:</h3></label>
+  <br />
+  <div>
+    <select name="expenseDate" id="expense" class="form-select" aria-label="Default select example" style="max-width: 20%; min-width: 150px; display: inline;" required>
+      <% expenseDay.forEach(function(expense) { %>
+        <option value="<%= expense.DISTINCT%>"><%= expense.DISTINCT %></option>
+      <% }) %>
+    </select>
+  </div>
+  &nbsp;&nbsp;
     <input type="submit" class="btn btn-primary">
-  </form>
+</form>
+<p></p>
 
   <form action="/expense/month" method="POST">
     <div class="form-group">
       <label for="Expense"><h3>Select Month To View (Current Year: <%= yyyy %> ):</h3></label>
-      <select name="expenseDate" id="expense" class="form-control" required>
+      <br />
+      <select name="expenseDate" id="expense" class="form-select" aria-label="Default select example" style="max-width: 20%; min-width: 150px; display: inline;"required>
         <option value="01">January</option>
         <option value="02">February</option>
         <option value="03">March</option>
@@ -45,11 +59,12 @@
     
     <input type="submit" class="btn btn-primary">
   </form>
-
+<p></p>
   <form action="/expense/year" method="POST">
     <div class="form-group">
       <label for="Expense"><h3>Select Year To View:</h3></label>
-      <select name="expenseYear" id="expense" class="form-control" required>
+      <br />
+      <select name="expenseYear" id="expense" class="form-select" aria-label="Default select example" style="max-width: 20%; min-width: 150px; display: inline;" required>
         <option value="2021">2021</option>
         <option value="2022">2022</option>
         <option value="2023">2023</option>
@@ -60,15 +75,13 @@
     
     <input type="submit" class="btn btn-primary">
   </form>
-
-
-
-
+<p></p>
   <form action="/expense/spec" method="POST">
-
     <div class="form-group">
+      <label for="Year"><h3>Select Specific Date</h3></label>
+      <br />
       <label for="Year">Year</label>
-      <select name="theYear" id="theYear" class="form-control" required>
+      <select name="theYear" id="theYear" class="form-select" aria-label="Default select example" style="max-width: 20%; min-width: 150px; display: inline;" required>
         <% uYear.forEach(function(select) { %>
           <option value="<%= select %>"><%= select %></option>
         <% }) %>
@@ -76,7 +89,7 @@
     </div>
     <div class="form-group">
       <label for="Month">Month</label>
-      <select name="theMonth" id="theMonth" class="form-control" required>
+      <select name="theMonth" id="theMonth" class="form-select" aria-label="Default select example" style="max-width: 20%; min-width: 150px; display: inline;" required>
         <% uMonth.forEach(function(select) { %>
           <option value="<%= select %>"><%= select %></option>
         <% }) %>
@@ -85,27 +98,24 @@
     </div>
     <div class="form-group">
       <label for="Day">Day</label>
-      <select name="theDay" id="theDay" class="form-control" required>
+      <select name="theDay" id="theDay" class="form-select" aria-label="Default select example" style="max-width: 20%; min-width: 150px; display: inline;" required>
         <% uDay.forEach(function(select) { %>
           <option value="<%= select %>"><%= select %></option>
         <% }) %>
       </select>
     </div>
- 
-    
     <input type="submit" class="btn btn-primary">
   </form>
-
-
+<p></p>
   <form action="/category/select" method="POST">
     <div class="form-group">
       <label for="Category"><h3>Select A Category View:</h3></label>
-      <select name="theCategory" id="category" class="form-control" required>
+      <br />
+      <select name="theCategory" id="category" class="form-select" aria-label="Default select example" style="max-width: 20%; min-width: 150px; display: inline;" required>
         <% categories.forEach(function(cat) { %>
           <option value="<%= cat.id%>"><%= cat.name %></option>
         <% }) %>
       </select>
     </div>
-    
     <input type="submit" class="btn btn-primary">
   </form>

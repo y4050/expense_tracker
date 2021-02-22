@@ -72,7 +72,7 @@ router.post('/signup', uploads.single("inputFile"), (req, res) => {
 });
 
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
+  successRedirect: '/expense/',
   failureRedirect: '/auth/login',
   successFlash: 'Welcome back ...',
   failureFlash: 'Either email or password is incorrect' 

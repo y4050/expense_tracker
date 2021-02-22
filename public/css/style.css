@@ -1,3 +1,7 @@
+* {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
 nav ul li {
   text-decoration: none;
   display: inline-block;
@@ -5,5 +9,18 @@ nav ul li {
 }
 
 h1 {
-  color: chartreuse;
+  color: rgb(0, 123, 255);
+}
+
+.anchor {
+  color:rgb(99, 66, 220);
+  border: black;
+  border-width: 2%;
+}
+
+body {
+  align-items: center;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
 }

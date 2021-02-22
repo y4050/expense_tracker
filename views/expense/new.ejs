@@ -1,10 +1,12 @@
+<p> &nbsp;</p>
 <h1>New Entry</h1>
-
+<p> &nbsp;</p>
 <form action="/expense" method="POST">
   <div class="form-group">
     <label for="date">Date</label>
     <input type="date" class="form-control" id="date" name="date" min="2021-01-01" max="2099-12-31" value="<%= today %>" required></input>
   </div>
+  <p> &nbsp;</p>
   <div class="form-group">
     <label for="Category">Category</label>
     <select name="categoryId" id="Category" class="form-control" required>
@@ -14,16 +16,16 @@
     </select>
     <a href="/category/new">Create New Category</a>
   </div>
-
+  <p> &nbsp;</p>
   <div class="form-group">
     <label for="name">Name of expense</label>
     <input type="text" class="form-control" id="name" name="name" required></input>
   </div>
- 
+ <p> &nbsp;</p>
   <div class="form-group">
     <label for="amount">Amount</label>
     <input type="text" class="form-control" id="amount" name="amount" required></input>
   </div>
-  
+  <p> &nbsp;</p>
   <input type="submit" class="btn btn-primary">
 </form>

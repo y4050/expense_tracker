@@ -12,14 +12,11 @@
     <header>
       <nav>
         <ul>
-          <% if (!currentUser) { %>
-            <li><a href="/auth/signup">Signup</a></li>
-            <li><a href="/auth/login">Login</a></li>
-          <% } else { %>
-          <li><a href="/auth/logout">Logout</a></li>
-          <li><a href="/profile"><%= currentUser.name%></a></li>
-          <li><a href="/expense">Expense</a></li>
-          <li><a href="/category">Category</a></li>
+          <% if (currentUser) { %>
+            <li><a href="/auth/logout">Logout</a></li>
+            <li><a href="/profile"><%= currentUser.name%></a></li>
+            <li><a href="/expense">Expense</a></li>
+            <li><a href="/category">Category</a></li>
           <% } %>
         </ul>
       </nav>

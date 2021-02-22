@@ -47,13 +47,6 @@ router.get("/", async(req, res) => {
 <a href="/expense/">Back To Main</a> */}
 
 
-
-
-
-
-
-
-
 router.get("/new", async(req, res) => {
   try{
     

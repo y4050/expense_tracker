@@ -1,16 +1,19 @@
 <h2>Create New Category</h2>
-
+<p> &nbsp;</p>
 <form action="/category" method="POST" enctype="multipart/form-data">
   <div class="form-group">
     <label for="name">Category Name</label>
     <input type="text" class="form-control" id="name" name="name" required>
   </div>
-
+  <br />
   <div class="form-group">
   <label for="inputFile"></label>
   <input type="file" name="inputFile" value="none" >
   </div>
+  <p> &nbsp;</p>
   <button type="submit" class="btn btn-primary">Confirm</button>
+  <p> &nbsp;</p>
   <a href="/category">Cancel</a>
+  <p> &nbsp;</p>
   <a href="/expense/new">Back To New Expense</a>
 </form>
