@@ -27,49 +27,93 @@ router.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
+// Testing
 
-// What routes do we need (post routes)
 router.post('/signup', uploads.single("inputFile"), (req, res) => {
   // we now have access to the user info (req.body);
   // console.log(req.body);
   const image = req.file.path;
   let profilePic = '';
   cloudinary.uploader.upload(image, (result) => {
-    profilePic = result.url
-    console.log("*********THIS*******",profilePic)
-  })
-  .then((result)=>{
+    // profilePic = result.url
+    // console.log("*********THIS*******",profilePic)
     const { email, name, password } = req.body; // goes and us access to whatever key/value inside of the object (req.body)
     const profilePic = result.url
     db.user.findOrCreate({
       where: { email },
       defaults: { name, password, profilePic }
-    })
-  })
-  .then(([user, created]) => {
-    if (created) {
-      // if created, success and we will redirect back to / page
-      console.log(`${user.name} was created....`);
-      // flash messages
-      const successObject = {
-        successRedirect: '/',
-        successFlash: `Welcome ${user.name}. Account was created and logging in...`
-      }
-      // passport authenicate
-      passport.authenticate('local', successObject)(req, res);
-    } else {
+    }).then(([user, created]) => {
+      if (created) {
+        
+          // if created, success and we will redirect back to / page
+          console.log(`${user.name} was created....`);
+          // flash messages
+          const successObject = {
+            successRedirect: '/',
+            successFlash: `Welcome ${user.name}. Account was created and logging in...`
+          }
+          // passport authenicate
+          passport.authenticate('local', successObject)(req, res);
+          res.redirect('/profile')
+      } else {
       // Send back email already exists
       req.flash('error', 'Email already exists');
       res.redirect('/auth/signup');
-    }
-  })
-  .catch(error => {
-    console.log('**************Error');
-    console.log(error);
-    req.flash('error', 'Either email or password is incorrect. Please try again.');
-    res.redirect("/auth/signup");
+      }
+    }).catch(error => {
+      console.log('**************Error');
+      console.log(error);
+      req.flash('error', 'Either email or password is incorrect. Please try again.');
+      res.redirect("/auth/signup");
+    });
   });
 });
+
+
+
+
+// // What routes do we need (post routes)
+// router.post('/signup', uploads.single("inputFile"), (req, res) => {
+//   // we now have access to the user info (req.body);
+//   // console.log(req.body);
+//   const image = req.file.path;
+//   let profilePic = '';
+//   cloudinary.uploader.upload(image, (result) => {
+//     profilePic = result.url
+//     console.log("*********THIS*******",profilePic)
+//   })
+//   .then((result)=>{
+//     const { email, name, password } = req.body; // goes and us access to whatever key/value inside of the object (req.body)
+//     const profilePic = result.url
+//     db.user.findOrCreate({
+//       where: { email },
+//       defaults: { name, password, profilePic }
+//     })
+//   })
+//   .then(([user, created]) => {
+//     if (created) {
+//       // if created, success and we will redirect back to / page
+//       console.log(`${user.name} was created....`);
+//       // flash messages
+//       const successObject = {
+//         successRedirect: '/',
+//         successFlash: `Welcome ${user.name}. Account was created and logging in...`
+//       }
+//       // passport authenicate
+//       passport.authenticate('local', successObject)(req, res);
+//     } else {
+//       // Send back email already exists
+//       req.flash('error', 'Email already exists');
+//       res.redirect('/auth/signup');
+//     }
+//   })
+//   .catch(error => {
+//     console.log('**************Error');
+//     console.log(error);
+//     req.flash('error', 'Either email or password is incorrect. Please try again.');
+//     res.redirect("/auth/signup");
+//   });
+// });
 
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/expense/',
